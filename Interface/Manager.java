@@ -9,7 +9,7 @@ public class Manager
     public static Surface sf;
     public static int w;
     public static int h;
-    public static int mode = 0;
+    public static int mode = 1;
 
     public static void main(String[] args){
         w = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
