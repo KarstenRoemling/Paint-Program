@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Result()
+comment1.params=w1\ h1\ w2\ h2
+comment1.target=void\ drawLine(int,\ int,\ int,\ int)
+comment2.params=
+comment2.target=void\ clearAll()
+comment3.params=x\ y
+comment3.target=void\ setPos(int,\ int)
+numComments=4
