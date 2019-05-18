@@ -61,14 +61,14 @@ public class Surface
       clear.setBounds(30,100,80,30);
       f.add(clear);
       
-      increase.setBounds(30,150,30,30);
-      f.add(increase);
+      decrease.setBounds(30,150,30,30);
+      f.add(decrease);
       
       modeName.setBounds(65,150,100,30);
       f.add(modeName);
       
-      decrease.setBounds(170,150,30,30);
-      f.add(decrease);
+      increase.setBounds(170,150,30,30);
+      f.add(increase);
       
       subtrahieren.setBounds(30,200,80,30);
       f.add(subtrahieren);
