@@ -10,7 +10,6 @@ public class Surface
     private TextField tf;
     private IgelStift stift;
     private Button clear;
-    private Button subtrahieren;
     private Label anzeige;
     public int number;
     private Result rs;
@@ -28,18 +27,11 @@ public class Surface
         decrease = new Button("<");
         increase = new Button(">");
         modeName = new Label(modeNames[Manager.mode]);
-        subtrahieren = new Button("-1");
         anzeige = new Label("0");
         number = 0;
         clear.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){
                     rs.clearAll();
-            } 
-        });
-        subtrahieren.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){
-                    number --;
-                    anzeige.setText(String.valueOf(number));
             } 
         });
         launchFrame();
@@ -69,9 +61,6 @@ public class Surface
       
       increase.setBounds(170,150,30,30);
       f.add(increase);
-      
-      subtrahieren.setBounds(30,200,80,30);
-      f.add(subtrahieren);
       
       label.setBounds(30,30,200,30);
       f.add(label);
