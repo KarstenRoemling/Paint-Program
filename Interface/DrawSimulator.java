@@ -23,45 +23,45 @@ public class DrawSimulator implements MouseListener, MouseMotionListener
         f.addMouseMotionListener(this);
     }
     
-   public void mouseExited(MouseEvent e) {
-   }
+    public void mouseExited(MouseEvent e) {
+    }
    
-   public void mouseDragged(MouseEvent e) {
-       switch(Manager.mode){
-           case 1:
-            rs.setPos(e.getX(), e.getY());
-            break;
-       }
-   }
-      
-   public void mouseEntered(MouseEvent e) {
-   }
+    public void mouseDragged(MouseEvent e) {
+        switch(Manager.mode){
+            case 1:
+                rs.setPos(e.getX(), e.getY());
+                break;
+        }
+    }
+        
+    public void mouseEntered(MouseEvent e) {
+    }
    
-   public void mouseMoved(MouseEvent e) {
-       switch(Manager.mode){
-           case 1:
-            rs.setPos(e.getX(), e.getY());
-            break;
-       }
+    public void mouseMoved(MouseEvent e) {
+        switch(Manager.mode){
+            case 1:
+                rs.setPos(e.getX(), e.getY());
+                break;
+        }
     }
       
    public void mousePressed(MouseEvent e) {
         switch(Manager.mode){
-           case 1:
-            mouseXStart = e.getX();
-            mouseYStart = e.getY();
-            break;
-       }
+            case 1:
+                mouseXStart = e.getX();
+                mouseYStart = e.getY();
+                break;
+        }
     }
       
-   public void mouseClicked(MouseEvent e) {
-   }
+    public void mouseClicked(MouseEvent e) {
+    }
       
-   public void mouseReleased(MouseEvent e) {
-       switch(Manager.mode){
-           case 1:
-            rs.drawLine(mouseXStart, mouseYStart, e.getX(), e.getY());
-            break;
-       }
-   }
+    public void mouseReleased(MouseEvent e) {
+        switch(Manager.mode){
+            case 1:
+                rs.drawLine(mouseXStart, mouseYStart, e.getX(), e.getY());
+                break;
+        }
+    }
 }
