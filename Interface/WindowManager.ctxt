@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=WindowManager
+comment1.params=
+comment1.target=WindowManager()
+comment2.params=e
+comment2.target=void\ windowClosing(java.awt.event.WindowEvent)
+numComments=3
