@@ -7,13 +7,11 @@ import java.applet.Applet;
 public class Surface
 {
     private Frame f;
-    private TextField tf;
     private IgelStift stift;
     private Button clear;
-    private Label anzeige;
-    public int number;
+    private Label waText;
     private Result rs;
-    private String[] modeNames = {"Pinsel", "Linie"};
+    private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "eigene Formen", "Linienkreis"};
     private Button decrease;
     private Button increase;
     private Label modeName;
@@ -22,20 +20,38 @@ public class Surface
     {
         rs = result;
         f = new Frame("Werkzeuge und Eintellungen");
-        tf = new TextField(30);
         clear = new Button("Clear");
         decrease = new Button("<");
         increase = new Button(">");
         modeName = new Label(modeNames[Manager.mode]);
-        anzeige = new Label("0");
-        number = 0;
+        waText = new Label("Werkzeugauswahl");
         clear.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){
                     rs.clearAll();
             } 
         });
+        decrease.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){
+                    Manager.mode--;
+                    if(Manager.mode < 0){
+                        Manager.mode = modeNames.length - 1;
+                    }
+                    modeName.setText(modeNames[Manager.mode]);
+            } 
+        });
+        increase.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){
+                    Manager.mode++;
+                    if(Manager.mode >= modeNames.length){
+                        Manager.mode = 0;
+                    }
+                    modeName.setText(modeNames[Manager.mode]);
+            } 
+        });
+        f.addWindowListener(new WindowManager());
         launchFrame();
     }
+    
    
    public void launchFrame() {
         int w = (int)(Manager.w / 2)-20;
@@ -50,7 +66,10 @@ public class Surface
       
       f.setLayout(null);
       
-      clear.setBounds(30,100,80,30);
+      waText.setBounds(30, 100, 150, 30);
+      f.add(waText);
+      
+      clear.setBounds(205,150,80,30);
       f.add(clear);
       
       decrease.setBounds(30,150,30,30);
@@ -64,12 +83,6 @@ public class Surface
       
       label.setBounds(30,30,200,30);
       f.add(label);
-      
-      tf.setBounds(5, (h-30), w, 30);
-      f.add(tf);
-      
-      anzeige.setBounds(30,300,80,30);
-      f.add(anzeige);
       
       f.setSize(w, h);
       f.setVisible(true);
