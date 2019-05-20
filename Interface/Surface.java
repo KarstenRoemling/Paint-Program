@@ -19,6 +19,7 @@ public class Surface
     public Surface(Result result)
     {
         rs = result;
+        Manager.refresh();
         f = new Frame("Werkzeuge und Eintellungen");
         clear = new Button("Clear");
         decrease = new Button("<");
@@ -37,6 +38,7 @@ public class Surface
                         Manager.mode = modeNames.length - 1;
                     }
                     modeName.setText(modeNames[Manager.mode]);
+                    Manager.refresh();
             } 
         });
         increase.addActionListener(new ActionListener(){  
@@ -46,6 +48,7 @@ public class Surface
                         Manager.mode = 0;
                     }
                     modeName.setText(modeNames[Manager.mode]);
+                    Manager.refresh();
             } 
         });
         f.addWindowListener(new WindowManager());
