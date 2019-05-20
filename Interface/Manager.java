@@ -18,4 +18,16 @@ public class Manager
         sf = new Surface(result);
         ds = new DrawSimulator(sf, result);
     }
+    
+    public static void refresh(){
+        switch(mode){
+            case 0:
+                result.s.setzeBild("pinsel.png");
+                break;
+            case 1:
+            case 6:
+                result.s.setzeBild("kreuz.png");
+                break;
+        }
+    }
 }

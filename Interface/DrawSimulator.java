@@ -66,7 +66,12 @@ public class DrawSimulator implements MouseListener, MouseMotionListener
                 neu = true;
                 break;
             case 6:
+                rs.s.setzeBild("pointer.png");
+                mouseXStart = e.getX();
+                mouseYStart = e.getY();
+                break;
             case 1:
+                rs.s.setzeBild("kreuzDragging.png");
                 mouseXStart = e.getX();
                 mouseYStart = e.getY();
                 break;
@@ -79,7 +84,11 @@ public class DrawSimulator implements MouseListener, MouseMotionListener
     public void mouseReleased(MouseEvent e) {
         switch(Manager.mode){
             case 1:
+                rs.s.setzeBild("kreuz.png");
                 rs.drawLine(mouseXStart, mouseYStart, e.getX(), e.getY());
+                break;
+            case 6:
+                rs.s.setzeBild("kreuz.png");
                 break;
         }
     }
