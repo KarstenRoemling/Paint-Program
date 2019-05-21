@@ -40,7 +40,7 @@ public class Result
         s.bewegeBis(x, y);
     }
     
-    public void drawPoint(int x, int y){
+    public void drawPoint2(int x, int y){
         s.hoch();
         s.bewegeBis(x, y);
         s.runter();
@@ -52,6 +52,14 @@ public class Result
         s.dreheUm(90);
         s.bewegeUm(1);
         s.dreheUm(90);
+        s.hoch();
+    }
+    
+    public void drawPoint(int x, int y){
+        s.hoch();
+        s.bewegeBis(x, y);
+        s.runter();
+        s.bewegeBis(x, y);
         s.hoch();
     }
     
