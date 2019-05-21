@@ -24,7 +24,9 @@ public class Manager
             case 0:
                 result.s.setzeBild("pinsel.png");
                 break;
+            case 4:
             case 1:
+            case 3:
             case 6:
                 result.s.setzeBild("kreuz.png");
                 break;

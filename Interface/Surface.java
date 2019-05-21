@@ -14,6 +14,7 @@ public class Surface
     private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "eigene Formen", "Linienkreis"};
     private Button decrease;
     private Button increase;
+    private Button save;
     private Label modeName;
     
     public Surface(Result result)
@@ -24,6 +25,7 @@ public class Surface
         clear = new Button("Clear");
         decrease = new Button("<");
         increase = new Button(">");
+        save = new Button("Bild speichern");
         modeName = new Label(modeNames[Manager.mode]);
         waText = new Label("Werkzeugauswahl");
         clear.addActionListener(new ActionListener(){  
@@ -51,6 +53,11 @@ public class Surface
                     Manager.refresh();
             } 
         });
+        save.addActionListener(new ActionListener(){  
+            public void actionPerformed(ActionEvent e){
+                    rs.b1.speichereBildUnter("../Images");
+            } 
+        });
         f.addWindowListener(new WindowManager());
         launchFrame();
     }
@@ -74,6 +81,9 @@ public class Surface
       
       clear.setBounds(205,150,80,30);
       f.add(clear);
+      
+      save.setBounds(290,150,80,30);
+      f.add(save);
       
       decrease.setBounds(30,150,30,30);
       f.add(decrease);

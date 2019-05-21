@@ -70,6 +70,8 @@ public class DrawSimulator implements MouseListener, MouseMotionListener
                 mouseXStart = e.getX();
                 mouseYStart = e.getY();
                 break;
+            case 4:
+            case 3:
             case 1:
                 rs.s.setzeBild("kreuzDragging.png");
                 mouseXStart = e.getX();
@@ -79,16 +81,32 @@ public class DrawSimulator implements MouseListener, MouseMotionListener
     }
       
     public void mouseClicked(MouseEvent e) {
+        switch(Manager.mode){
+            case 0:
+                rs.drawPoint(e.getX(), e.getY());
+                break;
+        }
     }
       
     public void mouseReleased(MouseEvent e) {
         switch(Manager.mode){
+            case 4:
+                rs.s.setzeBild("kreuz.png");
+                rs.drawRectangle(mouseXStart, mouseYStart, e.getX(), e.getY());
+                break;
             case 1:
                 rs.s.setzeBild("kreuz.png");
                 rs.drawLine(mouseXStart, mouseYStart, e.getX(), e.getY());
                 break;
             case 6:
                 rs.s.setzeBild("kreuz.png");
+                break;
+            case 3:
+                rs.s.setzeBild("kreuz.png");
+                int rad = (int)Math.sqrt((double)Math.pow(mouseXStart - e.getX(), 2)+Math.pow(mouseYStart - e.getY(), 2));
+                rs.drawCircle(mouseXStart,mouseYStart,rad);
+                rs.s.hoch();
+                rs.s.bewegeBis(e.getX(), e.getY());
                 break;
         }
     }
