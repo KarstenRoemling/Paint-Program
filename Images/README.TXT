@@ -1,0 +1,1 @@
+This is the default directory for saving your painted images.
