@@ -1,16 +1,15 @@
 #BlueJ class context
-comment0.params=result
-comment0.target=Surface(Result)
-comment1.params=e
-comment1.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment0.target=Surface
+comment1.params=result
+comment1.target=Surface(Result)
 comment2.params=e
 comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
 comment3.params=e
 comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
 comment4.params=e
 comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
-comment5.params=
-comment5.target=void\ launchFrame()
-comment6.params=w\ h
-comment6.target=void\ dynamicFrameLauncher(int,\ int)
+comment5.params=e
+comment5.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment6.params=
+comment6.target=void\ launchFrame()
 numComments=7
