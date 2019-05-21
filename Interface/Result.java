@@ -6,7 +6,7 @@ public class Result
 {
     public Fenster f;
     public IgelStift s;
-    private Bild b1;
+    public Bild b1;
 
     public Result(){
         f = new Fenster();
@@ -38,6 +38,59 @@ public class Result
     public void setPos(int x, int y){
         s.hoch();
         s.bewegeBis(x, y);
+    }
+    
+    public void drawPoint(int x, int y){
+        s.hoch();
+        s.bewegeBis(x, y);
+        s.runter();
+        s.bewegeUm(1);
+        s.dreheUm(90);
+        s.bewegeUm(1);
+        s.dreheUm(90);
+        s.bewegeUm(1);
+        s.dreheUm(90);
+        s.bewegeUm(1);
+        s.dreheUm(90);
+        s.hoch();
+    }
+    
+    public void drawCircle(int px, int py, int r){
+        //Brensenham Algorhitmus mit Elementen aus http://www-lehre.informatik.uni-osnabrueck.de/~cg/2000/skript/3_4_Kreis.html
+        int x,y,d,dx,dxy;
+        x=0; y=r; d=1-r;
+        dx=3; dxy=-2*r+5;
+        while (y>=x)
+        {
+           drawPoint(px+x, py+y);
+           drawPoint(px+y, py+x);
+           drawPoint(px+y, py-x);
+           drawPoint(px+x, py-y);
+           drawPoint(px-x, py-y);
+           drawPoint(px-y, py-x);
+           drawPoint(px-y, py+x);
+           drawPoint(px-x, py+y);
+
+           if (d<0) { d=d+dx;  dx=dx+2; dxy=dxy+2; x++; }
+           else { d=d+dxy; dx=dx+2; dxy=dxy+4; x++; y--; }
+        }
+    }
+    
+    public void drawRectangle(int x1, int y1, int x2, int y2){
+        s.hoch();
+        s.bewegeBis(x1, y1);
+        s.runter();
+        s.dreheBis(0);
+        s.bewegeUm(x2-x1);
+        s.dreheUm(270);
+        s.bewegeUm(y2-y1);
+        s.dreheUm(270);
+        s.bewegeUm(x2-x1);
+        s.dreheUm(270);
+        s.bewegeUm(y2-y1);
+        s.dreheUm(270);
+        s.hoch();
+        s.bewegeBis(x2, y2);
     }
     
 }
