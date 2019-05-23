@@ -16,14 +16,18 @@ public class Surface
     private String pathD = "..\\Images\\";
     private String pathN = "name";
     
-    private Button decrease;
-    private Button increase;
+    private IFButton decrease;
+    private IFButton increase;
+    private Label decreaseT;
+    private Label increaseT;
+    
     private Button save;
     private Button clear;
     private Label modeName;
     private Label waText;
     private TextField pathField;
     private TextField nameField;
+    private IFButton panel;
     
     public Surface(Result result)
     {
@@ -32,8 +36,10 @@ public class Surface
         
         f = new Frame("Werkzeuge und Eintellungen");
         clear = new Button("Clear");
-        decrease = new Button("<");
-        increase = new Button(">");
+        decreaseT = new Label("<");
+        increaseT = new Label(">");
+        decrease = new IFButton(30,30);
+        increase = new IFButton(30,30);
         save = new Button("Bild speichern");
         modeName = new Label(modeNames[Manager.mode]);
         waText = new Label("Werkzeugauswahl");
@@ -45,31 +51,74 @@ public class Surface
                     rs.clearAll();
             } 
         });
-        decrease.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){
-                    Manager.mode--;
-                    if(Manager.mode < 0){
-                        Manager.mode = modeNames.length - 1;
-                    }
-                    modeName.setText(modeNames[Manager.mode]);
-                    Manager.refresh();
-            } 
-        });
-        increase.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){
-                    Manager.mode++;
-                    if(Manager.mode >= modeNames.length){
-                        Manager.mode = 0;
-                    }
-                    modeName.setText(modeNames[Manager.mode]);
-                    Manager.refresh();
-            } 
-        });
         save.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){
                     boolean b = rs.b1.speichereBildUnter(pathField.getText()+nameField.getText()+".png");
             } 
         });
+        
+        MouseListener dML = new MouseListener(){
+            public void mouseClicked(MouseEvent e){
+                Manager.mode--;
+                if(Manager.mode < 0){
+                    Manager.mode = modeNames.length - 1;
+                }
+                modeName.setText(modeNames[Manager.mode]);
+                Manager.refresh();
+            }
+            
+            public void mouseExited(MouseEvent e){
+                decrease.setColor(new Color(255,0,255));
+                decreaseT.setBackground(new Color(255,0,255));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                decrease.increaseCR(4, 0.3);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                decrease.setColor(new Color(150,0,150));
+                decreaseT.setBackground(new Color(150,0,150));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                decrease.decreaseCR(4, 0.3);
+            }
+        };
+        
+        MouseListener iML = new MouseListener(){
+            public void mouseClicked(MouseEvent e){
+                Manager.mode++;
+                if(Manager.mode >= modeNames.length){
+                    Manager.mode = 0;
+                }
+                modeName.setText(modeNames[Manager.mode]);
+                Manager.refresh();
+            }
+            
+            public void mouseExited(MouseEvent e){
+                increase.setColor(new Color(255,0,255));
+                increaseT.setBackground(new Color(255,0,255));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                increase.increaseCR(4, 0.3);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                increase.setColor(new Color(150,0,150));
+                increaseT.setBackground(new Color(150,0,150));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                increase.decreaseCR(4, 0.3);
+            }
+        };
+        
+        decrease.addMouseListener(dML);
+        decreaseT.addMouseListener(dML);
+        increase.addMouseListener(iML);
+        increaseT.addMouseListener(iML);
         
         f.addWindowListener(new WindowManager());
         launchFrame();
@@ -121,18 +170,28 @@ public class Surface
           save.setFocusable(false);
           f.add(save);
           
+          decreaseT.setBounds(5,5,20,20);
+          decreaseT.setFont(normal);
+          decreaseT.setForeground(new Color(255,255,255));
+          decreaseT.setBackground(new Color(255,0,255));
+          decrease.add(decreaseT);
+          
           decrease.setBounds(30,180,30,30);
-          decrease.setFocusable(false);
-          decrease.setFont(normal);
+          decrease.setCornerRadius(1);
           f.add(decrease);
           
           modeName.setBounds(65,180,100,30);
           modeName.setFont(normal);
           f.add(modeName);
           
+          increaseT.setBounds(5,5,20,20);
+          increaseT.setFont(normal);
+          increaseT.setForeground(new Color(255,255,255));
+          increaseT.setBackground(new Color(255,0,255));
+          increase.add(increaseT);
+              
           increase.setBounds(170,180,30,30);
-          increase.setFocusable(false);
-          increase.setFont(normal);
+          increase.setCornerRadius(1);
           f.add(increase);
           
           label.setBounds(30,30,250,40);
