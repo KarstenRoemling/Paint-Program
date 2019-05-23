@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=IFButton
+comment1.params=width\ height
+comment1.target=IFButton(int,\ int)
+comment10.params=change\ changePE
+comment10.target=void\ decreaseCR(double,\ double)
+comment11.params=
+comment11.target=void\ run()
+comment2.params=
+comment2.target=void\ paintST()
+comment3.params=value1\ value2\ preference
+comment3.target=int\ mixOf(double,\ double,\ double)
+comment4.params=c1\ c2\ pref
+comment4.target=java.awt.Color\ mixOfColors(java.awt.Color,\ java.awt.Color,\ double)
+comment5.params=color
+comment5.target=void\ setColor(java.awt.Color)
+comment6.params=ncr
+comment6.target=void\ setCornerRadius(double)
+comment7.params=change\ changePE
+comment7.target=void\ increaseCR(double,\ double)
+comment8.params=
+comment8.target=void\ run()
+comment9.params=plus\ changePE
+comment9.target=void\ crPlusMinus(boolean,\ double)
+numComments=12

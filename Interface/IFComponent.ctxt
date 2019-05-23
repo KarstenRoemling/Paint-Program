@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=IFComponent
+comment1.params=width\ height
+comment1.target=IFComponent(int,\ int)
+comment2.params=
+comment2.target=java.awt.Dimension\ getPreferredSize()
+comment3.params=g
+comment3.target=void\ paint(java.awt.Graphics)
+comment4.params=c
+comment4.target=void\ fillCanvas(java.awt.Color)
+numComments=5
