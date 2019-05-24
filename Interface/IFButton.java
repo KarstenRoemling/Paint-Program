@@ -34,14 +34,18 @@ public class IFButton extends IFComponent
             for(int bx = 0; bx < w; bx++){
                 if(by <= h/2){
                     if(bx <= w/2){
+                        //PROBIEREN DIE DIE ANDEREN MÖGLICHKEITEN GERNE AUCH AUS! TW. AMÜSANT.
                         //double num = cr*(1-Math.sin(0.5 * Math.PI *((double)by / (double)cr)));
                         //double num = cr*(Math.pow(((double)cr-(double)by) / (double)cr, 2));
                         double num = cr*(Math.pow((double)by / cr, -1));
+                        if(cr <= 0){
+                            num = 0;
+                        }
                         if(bx > (int)num){
                             b.setRGB(bx, by, color);
                         }
                         else if(bx == (int)num){
-                            b.setRGB(bx, by, mixOfColors(new Color(255,255,255), clr, (double)(Math.floor(num)+1.0)-(double)num).getRGB());
+                            b.setRGB(bx, by, mixOfColors(new Color(b.getRGB(bx,by)), clr, (double)(Math.floor(num)+1.0)-(double)num).getRGB());
                         }
                         
                         double num2 = cr*(Math.pow((double)bx / cr, -1));
@@ -50,11 +54,11 @@ public class IFButton extends IFComponent
                         }
                     }
                     else{
-                        b.setRGB(bx, by, b.getRGB(w-bx, by));
+                        b.setRGB(bx, by, b.getRGB(w-bx-1, by));
                     }
                 }
                 else{
-                    b.setRGB(bx, by, b.getRGB(bx, h-by));
+                    b.setRGB(bx, by, b.getRGB(bx, h-by-1));
                 }
             }
         }
@@ -99,42 +103,32 @@ public class IFButton extends IFComponent
         repaint();
     }
     
-    public void increaseCR(double change, double changePE){
-        exPermission = 1;
-        double oldCR = cr;
-        final ScheduledExecutorService eS = Executors.newSingleThreadScheduledExecutor();
-        eS.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                if(cr >= oldCR + change || !(exPermission == 1)){
-                    eS.shutdown();
-                }else{
-                    crPlusMinus(true, changePE);
-                }
-            }
-        }, 0, 10, TimeUnit.MILLISECONDS);
-    }
-
-    public void crPlusMinus(boolean plus, double changePE) {
-        if(plus){
-            cr += changePE;
+    public void animCR(double result, double changePE){
+        final double myPerm;
+        if(result < cr){
+            exPermission = -1;
+            myPerm = -1;
         }else{
-            cr -= changePE;
+            exPermission = 1;
+            myPerm = 1;
         }
-        paintST();
-    }
-    
-    public void decreaseCR(double change, double changePE){
-        exPermission = -1;
-        double oldCR = cr;
+        final double oldCR = cr;
         final ScheduledExecutorService eS = Executors.newSingleThreadScheduledExecutor();
         eS.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if(cr <= oldCR - change || !(exPermission == -1)){
+                boolean reached;
+                if(myPerm == 1){
+                    reached = cr >= result;
+                }else{
+                    reached = cr <= result;
+                }
+                if(reached || !(exPermission == myPerm)){
+                    cr = result;
                     eS.shutdown();
                 }else{
-                    crPlusMinus(false, changePE);
+                    cr += changePE;
+                    paintST();
                 }
             }
         }, 0, 10, TimeUnit.MILLISECONDS);
@@ -147,8 +141,9 @@ public class IFButton extends IFComponent
         g2.setFont(font);
         
         FontRenderContext frc = g2.getFontRenderContext();
-        GlyphVector gv = g2.getFont().createGlyphVector(frc, text);
+        GlyphVector gv = g2.getFont().createGlyphVector(frc, "Clear");
         int strHeight = (int)gv.getPixelBounds(null, 2, 2).getHeight();
+        gv = g2.getFont().createGlyphVector(frc, text);
         int strWidth = (int)gv.getPixelBounds(null, 2, 2).getWidth();
         
         int x = (w - strWidth)/2;
