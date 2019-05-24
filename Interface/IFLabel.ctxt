@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=IFLabel
+comment1.params=width\ height\ x\ y\ txt
+comment1.target=IFLabel(int,\ int,\ int,\ int,\ java.lang.String)
+comment2.params=
+comment2.target=void\ paintST()
+comment3.params=g2
+comment3.target=void\ afterImage(java.awt.Graphics2D)
+numComments=4

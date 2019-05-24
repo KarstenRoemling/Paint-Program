@@ -19,8 +19,8 @@ public class Surface
     private IFButton decrease;
     private IFButton increase;
     private IFButton save;
+    private IFButton clear;
     
-    private Button clear;
     private Label modeName;
     private Label waText;
     private TextField pathField;
@@ -33,7 +33,7 @@ public class Surface
         
         f = new Frame("Werkzeuge und Eintellungen");
         
-        clear = new Button("Clear");
+        clear = new IFButton(80,30,205,180,"Clear");
         decrease = new IFButton(30,30,30,180, "<");
         increase = new IFButton(30,30,170,180, ">");
         save = new IFButton(100,20,440,85,"Bild speichern");
@@ -42,13 +42,14 @@ public class Surface
         pathField = new TextField(pathD);
         nameField = new TextField(pathN);
         
-        clear.addActionListener(new ActionListener(){  
+        /*clear.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){
                     rs.clearAll();
             } 
-        });
+        });*/
         
-        save.addMouseListener(new MouseListener(){
+        save.addMouseListener(new MouseListener()
+        {
             public void mouseClicked(MouseEvent e){
                 boolean b = rs.b1.speichereBildUnter(pathField.getText()+nameField.getText()+".png");
             }
@@ -58,7 +59,7 @@ public class Surface
             }
             
             public void mousePressed(MouseEvent e){
-                save.increaseCR(2, 0.1);
+                save.animCR(3, 0.1);
             }
             
             public void mouseEntered(MouseEvent e){
@@ -66,7 +67,7 @@ public class Surface
             }
             
             public void mouseReleased(MouseEvent e){
-                save.decreaseCR(2, 0.1);
+                save.animCR(1, -0.1);
             }
         });
         
@@ -85,7 +86,7 @@ public class Surface
             }
             
             public void mousePressed(MouseEvent e){
-                decrease.increaseCR(4, 0.3);
+                decrease.animCR(3, 0.2);
             }
             
             public void mouseEntered(MouseEvent e){
@@ -93,7 +94,7 @@ public class Surface
             }
             
             public void mouseReleased(MouseEvent e){
-                decrease.decreaseCR(4, 0.3);
+                decrease.animCR(1, -0.2);
             }
         };
         
@@ -112,7 +113,7 @@ public class Surface
             }
             
             public void mousePressed(MouseEvent e){
-                increase.increaseCR(4, 0.3);
+                increase.animCR(3, 0.2);
             }
             
             public void mouseEntered(MouseEvent e){
@@ -120,7 +121,7 @@ public class Surface
             }
             
             public void mouseReleased(MouseEvent e){
-                increase.decreaseCR(4, 0.3);
+                increase.animCR(1, -0.2);
             }
         };
         
@@ -148,10 +149,10 @@ public class Surface
           int w = (int)(Manager.w / 2)-20;
           int h = (int)(Manager.h * 0.48);
           
-          Font subHeading = new Font("Calibri", Font.PLAIN, 24);
-          Font heading = new Font("Calibri", Font.BOLD, 30);
-          Font normal = new Font("Calibri", Font.PLAIN, 18);
-          Font small = new Font("Calibri", Font.PLAIN, 12);
+          Font subHeading = new Font("Dosis", Font.PLAIN, 24);
+          Font heading = new Font("Dosis", Font.BOLD, 30);
+          Font normal = new Font("Dosis", Font.PLAIN, 18);
+          Font small = new Font("Dosis", Font.PLAIN, 12);
           
           Label label = new Label("Einstellungen");
           
@@ -167,10 +168,9 @@ public class Surface
           waText.setFont(subHeading);
           f.add(waText);
           
-          clear.setBounds(205,180,80,30);
           clear.setFont(normal);
-          clear.setForeground(new Color(255,0,0));
-          clear.setFocusable(false);
+          clear.setCornerRadius(1);
+          clear.setColor(new Color(255,0,0));
           f.add(clear);
           
           save.setFont(small);
