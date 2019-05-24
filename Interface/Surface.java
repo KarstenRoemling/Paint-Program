@@ -21,8 +21,9 @@ public class Surface
     private IFButton save;
     private IFButton clear;
     
-    private Label modeName;
-    private Label waText;
+    private IFLabel modeName;
+    private IFLabel waText;
+    
     private TextField pathField;
     private TextField nameField;
     
@@ -37,16 +38,33 @@ public class Surface
         decrease = new IFButton(30,30,30,180, "<");
         increase = new IFButton(30,30,170,180, ">");
         save = new IFButton(100,20,440,85,"Bild speichern");
-        modeName = new Label(modeNames[Manager.mode]);
-        waText = new Label("Werkzeugauswahl");
+        modeName = new IFLabel(100,30,65,180,modeNames[Manager.mode]);
+        waText = new IFLabel(220,30,30,145,"Werkzeugauswahl");
         pathField = new TextField(pathD);
         nameField = new TextField(pathN);
         
-        /*clear.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){
-                    rs.clearAll();
-            } 
-        });*/
+        clear.addMouseListener(new MouseListener()
+        {
+            public void mouseClicked(MouseEvent e){
+                rs.clearAll();
+            }
+            
+            public void mouseExited(MouseEvent e){
+                clear.setColor(new Color(255,0,0));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                clear.animCR(3, 0.2);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                clear.setColor(new Color(150,0,0));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                clear.animCR(1, -0.2);
+            }
+        });
         
         save.addMouseListener(new MouseListener()
         {
@@ -154,7 +172,7 @@ public class Surface
           Font normal = new Font("Dosis", Font.PLAIN, 18);
           Font small = new Font("Dosis", Font.PLAIN, 12);
           
-          Label label = new Label("Einstellungen");
+          IFLabel label = new IFLabel(250,40,30,30,"Einstellungen");
           
           f.setLayout(null);
           
@@ -164,8 +182,8 @@ public class Surface
           nameField.setBounds(335, 85, 100, 20);
           f.add(nameField);
           
-          waText.setBounds(30, 145, 220, 30);
           waText.setFont(subHeading);
+          waText.setPositionType(IFLabel.P_LEFT_CENTER);
           f.add(waText);
           
           clear.setFont(normal);
@@ -180,18 +198,16 @@ public class Surface
           decrease.setCornerRadius(1);
           f.add(decrease);
           
-          modeName.setBounds(65,180,100,30);
           modeName.setFont(normal);
           f.add(modeName);
 
           increase.setCornerRadius(1);
           f.add(increase);
           
-          increase.setCursor(new Cursor(Cursor.HAND_CURSOR));
-          
-          label.setBounds(30,30,250,40);
           f.add(label);
           label.setFont(heading);
+          label.setUnderlining(true);
+          label.setPositionType(IFLabel.P_LEFT_CENTER);
           
           f.setSize(w, h);
           f.setVisible(true);
