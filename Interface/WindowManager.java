@@ -8,7 +8,7 @@ public class WindowManager extends WindowAdapter
     
     public void windowClosing(WindowEvent e)
     {
-      e.getWindow().dispose();                   // Fenster "killen"
-      System.exit(0);                            // VM "killen" 
+      e.getWindow().dispose();
+      System.exit(0);
     }    	
 }

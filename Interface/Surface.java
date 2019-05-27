@@ -69,7 +69,12 @@ public class Surface
         save.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                boolean b = rs.b1.speichereBildUnter(pathField.getText()+nameField.getText()+".png");
+                boolean success = rs.b1.speichereBildUnter(pathField.getText()+nameField.getText()+".png");
+                if(success){
+                    new Info("Das Bild wurde erfolgreich gespeichert.", false);
+                }else{
+                    new Info("Das Bild konnte nich gespeichert werden. Ein Fehler ist aufgetreten.", true);
+                }
             }
             
             public void mouseExited(MouseEvent e){
