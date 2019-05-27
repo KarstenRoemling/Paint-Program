@@ -20,7 +20,7 @@ public class IFButton extends IFComponent
         
         clr = new Color(255,0,255);
         foregroundColor = Color.WHITE;
-        font = new Font("Sans-Serif", Font.BOLD, 20);
+        font = new Font("Dosis", Font.BOLD, 20);
         text = txt;
         
         setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -147,7 +147,7 @@ public class IFButton extends IFComponent
         int strWidth = (int)gv.getPixelBounds(null, 2, 2).getWidth();
         
         int x = (w - strWidth)/2;
-        int y = (h - strHeight)/2 + h/2 + baselineAddition;
+        int y = (h - strHeight)/2 + strHeight + baselineAddition;
         g2.setPaint(foregroundColor);
         g2.drawString(text, x, y);
     }

@@ -30,7 +30,7 @@ public class IFLabel extends IFComponent
         clr = Color.WHITE;
         foregroundColor = Color.BLACK;
         underliningColor = Color.BLACK;
-        font = new Font("Sans-Serif", Font.BOLD, 20);
+        font = new Font("Dosis", Font.BOLD, 20);
         text = txt;
         
         paintST();
@@ -120,7 +120,7 @@ public class IFLabel extends IFComponent
             case 0:
             case 1:
             case 2:
-                y = (h - strHeight)/2 + h/2 + baselineAddition;
+                y = (h - strHeight)/2 + strHeight + baselineAddition;
                 break;
             case 3:
             case 4:
