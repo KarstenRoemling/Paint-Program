@@ -71,7 +71,7 @@ public class Surface
         save.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                boolean success = rs.b1.speichereBildUnter(pathField.getText()+nameField.getText()+".png");
+                boolean success = rs.b1.speichereBildUnter(getPath());
                 if(success){
                     new Info("Das Bild wurde erfolgreich gespeichert.", false);
                 }else{
@@ -99,11 +99,15 @@ public class Surface
         load.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                try{
-                    rs.b1.ladeBild(pathField.getText()+nameField.getText()+".png");
-                }
-                catch(Exception ex){
-                    new Info("Das Bild konnte nicht unter diesem Pfad gefunden werden:\n"+pathField.getText()+nameField.getText()+".png", true);
+                if(new File(getPath()).exists()){
+                    try{
+                        rs.b1.ladeBild(getPath());
+                    }
+                    catch(Exception ex){
+                        new Info("Das Bild von diesem Pfad nicht geladen werden:\n"+getPath(), true);
+                    }
+                }else{
+                    new Info("Das Bild konnte unter diesem Pfad nicht gefunden werden:\n"+getPath(), true);
                 }
             }
             
@@ -196,6 +200,11 @@ public class Surface
         
         pathField.setText(pathD);
         nameField.setText(pathN);
+    }
+    
+    public String getPath(){
+        String pathTo = pathField.getText();
+        return pathTo+nameField.getText()+".png";
     }
     
     public void launchFrame() {
