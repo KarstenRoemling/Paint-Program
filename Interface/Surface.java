@@ -19,6 +19,7 @@ public class Surface
     private IFButton decrease;
     private IFButton increase;
     private IFButton save;
+    private IFButton load;
     private IFButton clear;
     
     private IFLabel modeName;
@@ -32,12 +33,13 @@ public class Surface
         rs = result;
         Manager.refresh();
         
-        f = new Frame("Werkzeuge und Eintellungen");
+        f = new Frame("Werkzeuge und Einstellungen");
         
         clear = new IFButton(80,30,205,180,"Clear");
         decrease = new IFButton(30,30,30,180, "<");
         increase = new IFButton(30,30,170,180, ">");
         save = new IFButton(100,20,440,85,"Bild speichern");
+        load = new IFButton(100,20,545,85,"Bild laden");
         modeName = new IFLabel(100,30,65,180,modeNames[Manager.mode]);
         waText = new IFLabel(220,30,30,145,"Werkzeugauswahl");
         pathField = new TextField(pathD);
@@ -91,6 +93,34 @@ public class Surface
             
             public void mouseReleased(MouseEvent e){
                 save.animCR(1, -0.1);
+            }
+        });
+        
+        load.addMouseListener(new MouseListener()
+        {
+            public void mouseClicked(MouseEvent e){
+                try{
+                    rs.b1.ladeBild(pathField.getText()+nameField.getText()+".png");
+                }
+                catch(Exception ex){
+                    new Info("Das Bild konnte nicht unter diesem Pfad gefunden werden:\n"+pathField.getText()+nameField.getText()+".png", true);
+                }
+            }
+            
+            public void mouseExited(MouseEvent e){
+                load.setColor(new Color(255,0,255));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                load.animCR(3, 0.1);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                load.setColor(new Color(150,0,150));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                load.animCR(1, -0.1);
             }
         });
         
@@ -199,6 +229,10 @@ public class Surface
           save.setFont(small);
           save.setCornerRadius(1);
           f.add(save);
+          
+          load.setFont(small);
+          load.setCornerRadius(1);
+          f.add(load);
 
           decrease.setCornerRadius(1);
           f.add(decrease);
