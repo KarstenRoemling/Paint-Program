@@ -14,7 +14,7 @@ public class Info
     public Info(String text, boolean warning)
     {
           f = new Frame("Info");
-          f.addWindowListener(new WindowManager());
+          f.addWindowListener(new WindowManager(false));
           label = new IFLabel(width,50,0,50, text);
           label.setFont(new Font("Dosis", Font.PLAIN, 18));
           f.add(label);

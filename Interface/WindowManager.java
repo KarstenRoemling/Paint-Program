@@ -4,11 +4,17 @@ import java.awt.event.*;
 
 public class WindowManager extends WindowAdapter
 {
-    public WindowManager(){}
+    private boolean exitSystem;
+    
+    public WindowManager(boolean eS){
+        exitSystem = eS;
+    }
     
     public void windowClosing(WindowEvent e)
     {
-      e.getWindow().dispose();
-      System.exit(0);
-    }    	
+        e.getWindow().dispose();
+        if(exitSystem){
+            System.exit(0);
+        }
+    }
 }

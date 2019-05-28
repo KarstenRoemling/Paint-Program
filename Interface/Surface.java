@@ -181,7 +181,7 @@ public class Surface
         decrease.addMouseListener(dML);
         increase.addMouseListener(iML);
         
-        f.addWindowListener(new WindowManager());
+        f.addWindowListener(new WindowManager(true));
         launchFrame();
         
         String name = "bild";
@@ -200,7 +200,7 @@ public class Surface
     
     public void launchFrame() {
           int w = (int)(Manager.w / 2)-20;
-          int h = (int)(Manager.h * 0.48);
+          int h = (int)(Manager.h * 0.96);
           
           Font subHeading = new Font("Dosis", Font.PLAIN, 24);
           Font heading = new Font("Dosis", Font.BOLD, 30);
