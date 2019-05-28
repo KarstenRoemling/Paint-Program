@@ -19,6 +19,7 @@ public class Surface
     private IFButton decrease;
     private IFButton increase;
     private IFButton save;
+    private IFButton load;
     private IFButton clear;
     
     private IFLabel modeName;
@@ -32,12 +33,13 @@ public class Surface
         rs = result;
         Manager.refresh();
         
-        f = new Frame("Werkzeuge und Eintellungen");
+        f = new Frame("Werkzeuge und Einstellungen");
         
         clear = new IFButton(80,30,205,180,"Clear");
         decrease = new IFButton(30,30,30,180, "<");
         increase = new IFButton(30,30,170,180, ">");
         save = new IFButton(100,20,440,85,"Bild speichern");
+        load = new IFButton(100,20,545,85,"Bild laden");
         modeName = new IFLabel(100,30,65,180,modeNames[Manager.mode]);
         waText = new IFLabel(220,30,30,145,"Werkzeugauswahl");
         pathField = new TextField(pathD);
@@ -69,7 +71,7 @@ public class Surface
         save.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                boolean success = rs.b1.speichereBildUnter(pathField.getText()+nameField.getText()+".png");
+                boolean success = rs.b1.speichereBildUnter(getPath());
                 if(success){
                     new Info("Das Bild wurde erfolgreich gespeichert.", false);
                 }else{
@@ -91,6 +93,38 @@ public class Surface
             
             public void mouseReleased(MouseEvent e){
                 save.animCR(1, -0.1);
+            }
+        });
+        
+        load.addMouseListener(new MouseListener()
+        {
+            public void mouseClicked(MouseEvent e){
+                if(new File(getPath()).exists()){
+                    try{
+                        rs.b1.ladeBild(getPath());
+                    }
+                    catch(Exception ex){
+                        new Info("Das Bild von diesem Pfad nicht geladen werden:\n"+getPath(), true);
+                    }
+                }else{
+                    new Info("Das Bild konnte unter diesem Pfad nicht gefunden werden:\n"+getPath(), true);
+                }
+            }
+            
+            public void mouseExited(MouseEvent e){
+                load.setColor(new Color(255,0,255));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                load.animCR(3, 0.1);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                load.setColor(new Color(150,0,150));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                load.animCR(1, -0.1);
             }
         });
         
@@ -151,7 +185,7 @@ public class Surface
         decrease.addMouseListener(dML);
         increase.addMouseListener(iML);
         
-        f.addWindowListener(new WindowManager());
+        f.addWindowListener(new WindowManager(true));
         launchFrame();
         
         String name = "bild";
@@ -168,9 +202,14 @@ public class Surface
         nameField.setText(pathN);
     }
     
+    public String getPath(){
+        String pathTo = pathField.getText();
+        return pathTo+nameField.getText()+".png";
+    }
+    
     public void launchFrame() {
           int w = (int)(Manager.w / 2)-20;
-          int h = (int)(Manager.h * 0.48);
+          int h = (int)(Manager.h * 0.96);
           
           Font subHeading = new Font("Dosis", Font.PLAIN, 24);
           Font heading = new Font("Dosis", Font.BOLD, 30);
@@ -199,6 +238,10 @@ public class Surface
           save.setFont(small);
           save.setCornerRadius(1);
           f.add(save);
+          
+          load.setFont(small);
+          load.setCornerRadius(1);
+          f.add(load);
 
           decrease.setCornerRadius(1);
           f.add(decrease);

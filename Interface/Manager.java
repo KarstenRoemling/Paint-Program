@@ -5,7 +5,6 @@ import basis.*;
 public class Manager
 {
     public static Result result;
-    public static DrawSimulator ds;
     public static Surface sf;
     public static int w;
     public static int h;
@@ -16,10 +15,11 @@ public class Manager
         h = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
         result = new Result();
         sf = new Surface(result);
-        ds = new DrawSimulator(sf, result);
     }
     
     public static void refresh(){
+        result.rightClick = false;
+        result.b1.setzeMitMausVerschiebbar(false);
         switch(mode){
             case 0:
                 result.s.setzeBild("pinsel.png");

@@ -28,7 +28,6 @@ public class IFButton extends IFComponent
     }
     
     public void paintST(){
-        fillCanvas(new Color(255,255,255));
         int color = clr.getRGB();
         for(int by = 0; by < h; by++){
             for(int bx = 0; bx < w; bx++){
@@ -45,10 +44,13 @@ public class IFButton extends IFComponent
                             b.setRGB(bx, by, color);
                         }
                         else if(bx == (int)num){
-                            b.setRGB(bx, by, mixOfColors(new Color(b.getRGB(bx,by)), clr, (double)(Math.floor(num)+1.0)-(double)num).getRGB());
+                            b.setRGB(bx, by, mixOfColors(Color.WHITE, clr, (double)(Math.floor(num)+1.0)-(double)num).getRGB());
+                        }
+                        else{
+                            b.setRGB(bx, by, Color.WHITE.getRGB());
                         }
                         
-                        double num2 = cr*(Math.pow((double)bx / cr, -1));
+                        final double num2 = cr*(Math.pow((double)bx / cr, -1));
                         if(by == (int)num2){
                             b.setRGB(bx, by, mixOfColors(new Color(b.getRGB(bx,by)), clr, (double)(Math.floor(num2)+1.0)-(double)num2).getRGB());
                         }

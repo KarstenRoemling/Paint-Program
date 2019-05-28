@@ -82,6 +82,11 @@ public class IFLabel extends IFComponent
         repaint();
     }
     
+    public int getStringWidth(String str, FontRenderContext frc){
+        GlyphVector gv = font.createGlyphVector(frc, str);
+        return (int)gv.getPixelBounds(null, 2, 2).getWidth();
+    }
+    
     public void afterImage(Graphics2D g2){
         g2.setRenderingHint(
             RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -91,8 +96,8 @@ public class IFLabel extends IFComponent
         FontRenderContext frc = g2.getFontRenderContext();
         GlyphVector gv = g2.getFont().createGlyphVector(frc, "Clear");
         int strHeight = (int)gv.getPixelBounds(null, 2, 2).getHeight();
-        gv = g2.getFont().createGlyphVector(frc, text);
-        int strWidth = (int)gv.getPixelBounds(null, 2, 2).getWidth();
+        
+        int strWidth = getStringWidth(text, frc);
         
         int x = 0;
         int y = 0;
