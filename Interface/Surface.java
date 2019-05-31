@@ -21,6 +21,8 @@ public class Surface
     private IFButton save;
     private IFButton load;
     private IFButton clear;
+    private IFButton undo;
+    private IFButton redo;
     
     private IFLabel modeName;
     private IFLabel waText;
@@ -36,6 +38,8 @@ public class Surface
         f = new Frame("Werkzeuge und Einstellungen");
         
         clear = new IFButton(80,30,205,180,"Clear");
+        undo = new IFButton(50,30,290,180,"UNDO");
+        redo = new IFButton(50,30,345,180,"REDO");
         decrease = new IFButton(30,30,30,180, "<");
         increase = new IFButton(30,30,170,180, ">");
         save = new IFButton(100,20,440,85,"Bild speichern");
@@ -68,10 +72,64 @@ public class Surface
             }
         });
         
+        undo.addMouseListener(new MouseListener()
+        {
+            public void mouseClicked(MouseEvent e){
+                Manager.swap--;
+                if(Manager.swap < 0){
+                    Manager.swap = 0;
+                }
+                setFromHistory();
+            }
+            
+            public void mouseExited(MouseEvent e){
+                undo.setColor(new Color(255,0,255));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                undo.animCR(3, 0.2);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                undo.setColor(new Color(150,0,150));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                undo.animCR(1, -0.2);
+            }
+        });
+        
+        redo.addMouseListener(new MouseListener()
+        {
+            public void mouseClicked(MouseEvent e){
+                Manager.swap++;
+                if(Manager.swap >= rs.history.size()){
+                    Manager.swap = rs.history.size()-1;
+                }
+                setFromHistory();
+            }
+            
+            public void mouseExited(MouseEvent e){
+                redo.setColor(new Color(255,0,255));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                redo.animCR(3, 0.2);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                redo.setColor(new Color(150,0,150));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                redo.animCR(1, -0.2);
+            }
+        });
+        
         save.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                boolean success = rs.b1.speichereBildUnter(getPath());
+                boolean success = rs.b1.speichereBildUnter(getPath(false));
                 if(success){
                     new Info("Das Bild wurde erfolgreich gespeichert.", false);
                 }else{
@@ -99,15 +157,12 @@ public class Surface
         load.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                if(new File(getPath()).exists()){
-                    try{
-                        rs.b1.ladeBild(getPath());
-                    }
-                    catch(Exception ex){
-                        new Info("Das Bild von diesem Pfad nicht geladen werden:\n"+getPath(), true);
-                    }
+                if(new File(getPath(false)).exists()){
+                    loadImage(false);
+                }else if(new File(getPath(true)).exists()){
+                    loadImage(true);
                 }else{
-                    new Info("Das Bild konnte unter diesem Pfad nicht gefunden werden:\n"+getPath(), true);
+                    new Info("Das Bild konnte unter diesem Pfad nicht gefunden werden:\n"+getPath(false), true);
                 }
             }
             
@@ -202,9 +257,31 @@ public class Surface
         nameField.setText(pathN);
     }
     
-    public String getPath(){
+    public String getPath(boolean big){
         String pathTo = pathField.getText();
-        return pathTo+nameField.getText()+".png";
+        if(pathTo.charAt(pathTo.length() - 1) != '\\'){
+            pathTo += "\\";
+        }
+        String ending = ".png";
+        if(big){
+            ending = ".PNG";
+        }
+        return pathTo+nameField.getText()+ending;
+    }
+    
+    public void loadImage(boolean big){
+        try{
+            rs.b1.ladeBild(getPath(big));
+        }
+        catch(Exception ex){
+            new Info("Das Bild von diesem Pfad kann nicht geladen werden:\n"+getPath(big), true);
+        }
+    }
+    
+    public void setFromHistory(){
+        if(Manager.swap < rs.history.size() && Manager.swap >= 0){
+            rs.b1.setzeBilddaten(rs.history.get(Manager.swap));
+        }
     }
     
     public void launchFrame() {
@@ -234,6 +311,14 @@ public class Surface
           clear.setCornerRadius(1);
           clear.setColor(new Color(255,0,0));
           f.add(clear);
+          
+          undo.setFont(normal);
+          undo.setCornerRadius(1);
+          f.add(undo);
+          
+          redo.setFont(normal);
+          redo.setCornerRadius(1);
+          f.add(redo);
           
           save.setFont(small);
           save.setCornerRadius(1);

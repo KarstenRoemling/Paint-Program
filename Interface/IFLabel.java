@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.*;
 import java.awt.font.*;
+import java.util.*;
 
 public class IFLabel extends IFComponent
 {
@@ -93,33 +94,51 @@ public class IFLabel extends IFComponent
             RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         g2.setFont(font);
         
+        ArrayList<String> texts = new ArrayList<String>();
+        
+        int index = text.indexOf('\n');
+        int oldI = 0;
+        while(index >= 0) {
+             texts.add(text.substring(oldI, index));
+             oldI = index;
+             index = text.indexOf('\n', index+1);
+        }
+        texts.add(text.substring(oldI, text.length()));
+        int lines = texts.size();
+        
         FontRenderContext frc = g2.getFontRenderContext();
         GlyphVector gv = g2.getFont().createGlyphVector(frc, "Clear");
-        int strHeight = (int)gv.getPixelBounds(null, 2, 2).getHeight();
+        int strHeight = (int)gv.getPixelBounds(null, 2, 2).getHeight() * lines + (lines-1)*14;
         
-        int strWidth = getStringWidth(text, frc);
         
-        int x = 0;
+        
+        ArrayList<Integer> xs = new ArrayList<Integer>();
         int y = 0;
         
-        switch(positionType)
-        {
-            case 0:
-            case 3:
-            case 6:
-                x = (w - strWidth)/2;
-                break;
-            case 1:
-            case 4:
-            case 7:
-                x = 0;
-                break;
-            case 2:
-            case 5:
-            case 8:
-                x = w - strWidth;
-                break;
+        for(int i = 0; i < lines; i++){
+            int strWidth = getStringWidth(texts.get(i), frc);
+            int x = 0;
+            switch(positionType)
+            {
+                case 0:
+                case 3:
+                case 6:
+                    x = (w - strWidth)/2;
+                    break;
+                case 1:
+                case 4:
+                case 7:
+                    x = 0;
+                    break;
+                case 2:
+                case 5:
+                case 8:
+                    x = w - strWidth;
+                    break;
+            }
+            xs.add(x);
         }
+        
         switch(positionType)
         {
             case 0:
@@ -139,12 +158,16 @@ public class IFLabel extends IFComponent
                 break;
         }
         
-        if(underlining){
-            g2.setPaint(underliningColor);
-            g2.drawLine(x,y+2,x+strWidth,y+2);
-        }
         
-        g2.setPaint(foregroundColor);
-        g2.drawString(text, x, y);
+        for(int i = 0; i < lines; i++){
+            int currentY = y-(strHeight/lines)*(lines-i-1);
+            
+            g2.setPaint(foregroundColor);
+            g2.drawString(texts.get(i), xs.get(i), currentY);
+            if(underlining){
+                g2.setPaint(underliningColor);
+                g2.drawLine(xs.get(i),currentY+2,xs.get(i)+getStringWidth(texts.get(i), frc),currentY+2);
+            }
+        }
     }
 }

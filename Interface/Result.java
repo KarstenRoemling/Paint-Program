@@ -13,11 +13,14 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
     private int mouseYStart = 0;
     private boolean neu;
     
+    public ArrayList<Picture> history;
+    
     public boolean rightClick;
 
     public Result(){
         f = new Fenster();
         s = new IgelStift();
+        history = new ArrayList<Picture>();
         int w = (int)(Manager.w / 2)-20;
         int h = (int)(Manager.h * 0.915);
         f.setzeGroesse(w+25, h);
@@ -31,6 +34,18 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
         
         f.setzeMausLauscherStandard(this);
         f.setzeMausLauscherErweitert(this);
+        
+        backup();
+    }
+    
+    private void backup(){
+        if(Manager.swap != history.size()-1){
+            for (int i = history.size()-1; i > Manager.swap; i--) {
+               history.remove(i);
+            }
+        }
+        history.add(b1.holeBilddatenkopie());
+        Manager.swap = history.size() -1;
     }
     
     public void drawLine(int w1, int h1, int w2, int h2){
@@ -181,6 +196,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
     public void bearbeiteMausLos(java.lang.Object o, int x, int y){
         x = getRealX(b1, x);
         y = getRealY(b1, y);
+        backup();
         switch(Manager.mode){
             case 4:
                 s.setzeBild("kreuz.png");

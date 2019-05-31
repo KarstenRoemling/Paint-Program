@@ -9,6 +9,8 @@ public class Manager
     public static int w;
     public static int h;
     public static int mode = 0;
+    public static int swap = 0;
+    public static boolean swapping = false;
 
     public static void main(String[] args){
         w = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
