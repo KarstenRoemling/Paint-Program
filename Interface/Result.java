@@ -3,6 +3,7 @@ import basis.swing.*;
 import java.util.*;
 import java.awt.*;
 
+
 public class Result implements MausLauscherStandard, MausLauscherErweitert
 {
     public Fenster f;
@@ -16,6 +17,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
     public ArrayList<Picture> history;
     
     public boolean rightClick;
+    private boolean firstClick = true;
 
     public Result(){
         f = new Fenster();
@@ -58,6 +60,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
     public void clearAll(){
         b1.loescheAlles();
         b1.setzeHintergrundFarbe(Farbe.WEISS);
+        firstClick = true;
     }
     
     public void setPos(int x, int y){
@@ -231,6 +234,18 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
             case 0:
                 drawPoint(x, y);
                 break;
+            case 5:            
+            if(!firstClick){
+                drawLine(mouseXStart, mouseYStart, x, y);
+                mouseXStart = x;
+                mouseYStart = y;
+            }else{
+                mouseXStart = x;
+                mouseYStart = y;
+                s.setzeBild("kreuzDragging.png");
+                firstClick = false;
+            }
+            break;
         }
     }
     
