@@ -4,7 +4,7 @@ import java.util.*;
 import java.awt.*;
 
 
-public class Result implements MausLauscherStandard, MausLauscherErweitert
+public class Result implements MausLauscherStandard, MausLauscherErweitert, TastenLauscher
 {
     public Fenster f;
     public IgelStift s;
@@ -12,12 +12,15 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
     
     private int mouseXStart = 0;
     private int mouseYStart = 0;
+    private int completeXStart = 0;
+    private int completeYStart = 0;
+    private boolean firstClick = true;
     private boolean neu;
     
     public ArrayList<Picture> history;
     
     public boolean rightClick;
-    private boolean firstClick = true;
+    
 
     public Result(){
         f = new Fenster();
@@ -36,6 +39,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
         
         f.setzeMausLauscherStandard(this);
         f.setzeMausLauscherErweitert(this);
+        f.setzeTastenLauscher(this);
         
         backup();
     }
@@ -61,6 +65,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
         b1.loescheAlles();
         b1.setzeHintergrundFarbe(Farbe.WEISS);
         firstClick = true;
+        Manager.refresh();
     }
     
     public void setPos(int x, int y){
@@ -235,17 +240,19 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
                 drawPoint(x, y);
                 break;
             case 5:            
-            if(!firstClick){
-                drawLine(mouseXStart, mouseYStart, x, y);
-                mouseXStart = x;
-                mouseYStart = y;
-            }else{
-                mouseXStart = x;
-                mouseYStart = y;
-                s.setzeBild("kreuzDragging.png");
-                firstClick = false;
-            }
-            break;
+                if(!firstClick){
+                    drawLine(mouseXStart, mouseYStart, x, y);
+                    mouseXStart = x;
+                    mouseYStart = y;
+                }else{
+                    completeXStart = x;
+                    completeYStart = y;
+                    mouseXStart = x;
+                    mouseYStart = y;
+                    s.setzeBild("kreuzDragging.png");
+                    firstClick = false;
+                }
+                break;
         }
     }
     
@@ -266,4 +273,22 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert
     public void bearbeiteMausHeraus(java.lang.Object o, int x, int y){}
     
     public void bearbeiteMausHinein(java.lang.Object o, int x, int y){}
+    
+    public void bearbeiteTaste(Komponente sender, char t){
+        if(rightClick){
+            return;
+        }
+        
+        switch(Manager.mode){
+            case 5:
+                switch(t){
+                    case 'z':
+                        drawLine(mouseXStart, mouseYStart, completeXStart, completeYStart);
+                        firstClick = true;
+                        s.setzeBild("kreuz.png");
+                        break;
+                }
+            break;
+        }
+    }
 }
