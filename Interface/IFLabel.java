@@ -50,7 +50,7 @@ public class IFLabel extends IFComponent
     
     public void setColor(Color c){
         clr = c;
-        repaint();
+        paintST();
     }
     
     public void setForegroundColor(Color c){
@@ -86,6 +86,9 @@ public class IFLabel extends IFComponent
     public int getStringWidth(String str, FontRenderContext frc){
         GlyphVector gv = font.createGlyphVector(frc, str);
         return (int)gv.getPixelBounds(null, 2, 2).getWidth();
+    }
+    
+    public void beforeImage(Graphics2D g2){
     }
     
     public void afterImage(Graphics2D g2){

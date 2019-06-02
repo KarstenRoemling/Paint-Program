@@ -17,6 +17,7 @@ public class Manager
         h = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
         result = new Result();
         sf = new Surface(result);
+        Manager.refresh();
     }
     
     public static void refresh(){
@@ -26,6 +27,7 @@ public class Manager
             case 0:
                 result.s.setzeBild("pinsel.png");
                 break;
+            case 5:
             case 4:
             case 1:
             case 3:
@@ -33,5 +35,7 @@ public class Manager
                 result.s.setzeBild("kreuz.png");
                 break;
         }
+        Manager.sf.refresh();
+        result.defaults();
     }
 }
