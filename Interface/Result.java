@@ -61,11 +61,14 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         s.bewegeBis(w2, h2);
     }
     
-    public void clearAll(){
+    public void clearAll(Color c){
         b1.loescheAlles();
-        b1.setzeHintergrundFarbe(Farbe.WEISS);
-        firstClick = true;
+        b1.setzeHintergrundFarbe(c);
         Manager.refresh();
+    }
+    
+    public void defaults(){
+        firstClick = true;
     }
     
     public void setPos(int x, int y){
@@ -150,22 +153,24 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         }
         x = getRealX(b1, x);
         y = getRealY(b1, y);
-        switch(Manager.mode){
-            case 0:
-                neu = true;
-                break;
-            case 6:
-                s.setzeBild("pointer.png");
-                mouseXStart = x;
-                mouseYStart = y;
-                break;
-            case 4:
-            case 3:
-            case 1:
-                s.setzeBild("kreuzDragging.png");
-                mouseXStart = x;
-                mouseYStart = y;
-                break;
+        if(!rightClick){
+            switch(Manager.mode){
+                case 0:
+                    neu = true;
+                    break;
+                case 6:
+                    s.setzeBild("pointer.png");
+                    mouseXStart = x;
+                    mouseYStart = y;
+                    break;
+                case 4:
+                case 3:
+                case 1:
+                    s.setzeBild("kreuzDragging.png");
+                    mouseXStart = x;
+                    mouseYStart = y;
+                    break;
+            }
         }
     }
     
@@ -205,25 +210,27 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         x = getRealX(b1, x);
         y = getRealY(b1, y);
         backup();
-        switch(Manager.mode){
-            case 4:
-                s.setzeBild("kreuz.png");
-                drawRectangle(mouseXStart, mouseYStart, x, y);
-                break;
-            case 1:
-                s.setzeBild("kreuz.png");
-                drawLine(mouseXStart, mouseYStart, x, y);
-                break;
-            case 6:
-                s.setzeBild("kreuz.png");
-                break;
-            case 3:
-                s.setzeBild("kreuz.png");
-                int rad = (int)Math.sqrt((double)Math.pow(mouseXStart - x, 2)+Math.pow(mouseYStart - y, 2));
-                drawCircle(mouseXStart,mouseYStart,rad);
-                s.hoch();
-                s.bewegeBis(x, y);
-                break;
+        if(!rightClick){
+            switch(Manager.mode){
+                case 4:
+                    s.setzeBild("kreuz.png");
+                    drawRectangle(mouseXStart, mouseYStart, x, y);
+                    break;
+                case 1:
+                    s.setzeBild("kreuz.png");
+                    drawLine(mouseXStart, mouseYStart, x, y);
+                    break;
+                case 6:
+                    s.setzeBild("kreuz.png");
+                    break;
+                case 3:
+                    s.setzeBild("kreuz.png");
+                    int rad = (int)Math.sqrt((double)Math.pow(mouseXStart - x, 2)+Math.pow(mouseYStart - y, 2));
+                    drawCircle(mouseXStart,mouseYStart,rad);
+                    s.hoch();
+                    s.bewegeBis(x, y);
+                    break;
+            }
         }
     }
     
@@ -235,24 +242,26 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         }
         x = getRealX(b1, x);
         y = getRealY(b1, y);
-        switch(Manager.mode){
-            case 0:
-                drawPoint(x, y);
-                break;
-            case 5:            
-                if(!firstClick){
-                    drawLine(mouseXStart, mouseYStart, x, y);
-                    mouseXStart = x;
-                    mouseYStart = y;
-                }else{
-                    completeXStart = x;
-                    completeYStart = y;
-                    mouseXStart = x;
-                    mouseYStart = y;
-                    s.setzeBild("kreuzDragging.png");
-                    firstClick = false;
-                }
-                break;
+        if(!rightClick){
+            switch(Manager.mode){
+                case 0:
+                    drawPoint(x, y);
+                    break;
+                case 5:            
+                    if(!firstClick){
+                        drawLine(mouseXStart, mouseYStart, x, y);
+                        mouseXStart = x;
+                        mouseYStart = y;
+                    }else{
+                        completeXStart = x;
+                        completeYStart = y;
+                        mouseXStart = x;
+                        mouseYStart = y;
+                        s.setzeBild("kreuzDragging.png");
+                        firstClick = false;
+                    }
+                    break;
+            }
         }
     }
     
@@ -278,17 +287,22 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         if(rightClick){
             return;
         }
-        
-        switch(Manager.mode){
-            case 5:
-                switch(t){
-                    case 'z':
-                        drawLine(mouseXStart, mouseYStart, completeXStart, completeYStart);
-                        firstClick = true;
-                        s.setzeBild("kreuz.png");
-                        break;
-                }
-            break;
+        if(!rightClick){
+            switch(Manager.mode){
+                case 5:
+                    switch(t){
+                        case 'z':
+                            drawLine(mouseXStart, mouseYStart, completeXStart, completeYStart);
+                            firstClick = true;
+                            s.setzeBild("kreuz.png");
+                            break;
+                        case 'c':
+                            firstClick = true;
+                            s.setzeBild("kreuz.png");
+                            break;
+                    }
+                break;
+            }
         }
     }
 }
