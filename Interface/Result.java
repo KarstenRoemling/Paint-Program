@@ -50,7 +50,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                history.remove(i);
             }
         }
-        history.add(b1.holeBilddatenkopie());
+        history.add(b1.holeBilddaten());
         Manager.swap = history.size() -1;
     }
     
@@ -65,6 +65,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         b1.loescheAlles();
         b1.setzeHintergrundFarbe(c);
         Manager.refresh();
+        backup();
     }
     
     public void defaults(){
@@ -209,19 +210,21 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     public void bearbeiteMausLos(java.lang.Object o, int x, int y){
         x = getRealX(b1, x);
         y = getRealY(b1, y);
-        backup();
         if(!rightClick){
             switch(Manager.mode){
                 case 4:
                     s.setzeBild("kreuz.png");
                     drawRectangle(mouseXStart, mouseYStart, x, y);
+                    backup();
                     break;
                 case 1:
                     s.setzeBild("kreuz.png");
                     drawLine(mouseXStart, mouseYStart, x, y);
+                    backup();
                     break;
                 case 6:
                     s.setzeBild("kreuz.png");
+                    backup();
                     break;
                 case 3:
                     s.setzeBild("kreuz.png");
@@ -229,6 +232,10 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                     drawCircle(mouseXStart,mouseYStart,rad);
                     s.hoch();
                     s.bewegeBis(x, y);
+                    backup();
+                    break;
+                case 0:
+                    backup();
                     break;
             }
         }
@@ -246,6 +253,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
             switch(Manager.mode){
                 case 0:
                     drawPoint(x, y);
+                    backup();
                     break;
                 case 5:            
                     if(!firstClick){
@@ -295,10 +303,12 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                             drawLine(mouseXStart, mouseYStart, completeXStart, completeYStart);
                             firstClick = true;
                             s.setzeBild("kreuz.png");
+                            backup();
                             break;
                         case 'c':
                             firstClick = true;
                             s.setzeBild("kreuz.png");
+                            backup();
                             break;
                     }
                 break;
