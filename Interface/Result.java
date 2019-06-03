@@ -53,7 +53,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                history.remove(i);
             }
         }
-        history.add(b1.holeBilddatenkopie());
+        history.add(b1.holeBilddaten());
         Manager.swap = history.size() -1;
         if(Manager.sf != null){
             Manager.sf.debugInfo.setText(String.valueOf(Manager.swap)+"; "+String.valueOf(history.size()));
