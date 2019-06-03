@@ -2,6 +2,7 @@ import basis.*;
 import basis.swing.*;
 import java.util.*;
 import java.awt.*;
+import java.awt.image.*;
 
 
 public class Result implements MausLauscherStandard, MausLauscherErweitert, TastenLauscher
@@ -18,6 +19,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     private boolean neu;
     
     public ArrayList<Picture> history;
+    public ArrayList<BufferedImage> history2;
     
     public boolean rightClick;
     
@@ -26,6 +28,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         f = new Fenster();
         s = new IgelStift();
         history = new ArrayList<Picture>();
+        history2 = new ArrayList<BufferedImage>();
         int w = (int)(Manager.w / 2)-20;
         int h = (int)(Manager.h * 0.915);
         f.setzeGroesse(w+25, h);
@@ -52,6 +55,9 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         }
         history.add(b1.holeBilddatenkopie());
         Manager.swap = history.size() -1;
+        if(Manager.sf != null){
+            Manager.sf.debugInfo.setText(String.valueOf(Manager.swap)+"; "+String.valueOf(history.size()));
+        }
     }
     
     public void drawLine(int w1, int h1, int w2, int h2){
@@ -65,6 +71,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         b1.loescheAlles();
         b1.setzeHintergrundFarbe(c);
         Manager.refresh();
+        backup();
     }
     
     public void defaults(){
@@ -209,19 +216,21 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     public void bearbeiteMausLos(java.lang.Object o, int x, int y){
         x = getRealX(b1, x);
         y = getRealY(b1, y);
-        backup();
         if(!rightClick){
             switch(Manager.mode){
                 case 4:
                     s.setzeBild("kreuz.png");
                     drawRectangle(mouseXStart, mouseYStart, x, y);
+                    backup();
                     break;
                 case 1:
                     s.setzeBild("kreuz.png");
                     drawLine(mouseXStart, mouseYStart, x, y);
+                    backup();
                     break;
                 case 6:
                     s.setzeBild("kreuz.png");
+                    backup();
                     break;
                 case 3:
                     s.setzeBild("kreuz.png");
@@ -229,6 +238,10 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                     drawCircle(mouseXStart,mouseYStart,rad);
                     s.hoch();
                     s.bewegeBis(x, y);
+                    backup();
+                    break;
+                case 0:
+                    backup();
                     break;
             }
         }
@@ -246,6 +259,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
             switch(Manager.mode){
                 case 0:
                     drawPoint(x, y);
+                    backup();
                     break;
                 case 5:            
                     if(!firstClick){
@@ -295,10 +309,12 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                             drawLine(mouseXStart, mouseYStart, completeXStart, completeYStart);
                             firstClick = true;
                             s.setzeBild("kreuz.png");
+                            backup();
                             break;
                         case 'c':
                             firstClick = true;
                             s.setzeBild("kreuz.png");
+                            backup();
                             break;
                     }
                 break;

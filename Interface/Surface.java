@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 import java.applet.Applet;
 import java.io.*;
+import basis.swing.*;
 
 public class Surface
 {
@@ -29,6 +30,8 @@ public class Surface
     private IFLabel modeName;
     private IFLabel waText;
     private IFLabel faText;
+    
+    public IFLabel debugInfo;
     
     private TextField pathField;
     private TextField nameField;
@@ -61,6 +64,7 @@ public class Surface
         modeName = new IFLabel(100,30,65,180,modeNames[Manager.mode]);
         waText = new IFLabel(220,30,30,145,"Werkzeugauswahl");
         faText = new IFLabel(220,30,400,145, "Farbauswahl");
+        debugInfo = new IFLabel(100,30,705,180, "0; 0");
         
         pathField = new TextField(pathD);
         nameField = new TextField(pathN);
@@ -373,8 +377,10 @@ public class Surface
     
     public void setFromHistory(){
         if(Manager.swap < rs.history.size() && Manager.swap >= 0){
-            rs.b1.setzeBilddaten(rs.history.get(Manager.swap));
+            rs.b1.loescheAlles();
+            rs.b1.setzeBilddaten(rs.history.get(Manager.swap).getClone());
         }
+        debugInfo.setText(String.valueOf(Manager.swap)+"; "+String.valueOf(rs.history.size()));
     }
     
     public void launchFrame() {
@@ -410,6 +416,10 @@ public class Surface
           faText.setFont(subHeading);
           faText.setPositionType(IFLabel.P_LEFT_CENTER);
           f.add(faText);
+          
+          debugInfo.setFont(normal);
+          f.add(debugInfo);
+          debugInfo.setVisible(false);
           
           farbanzeige.setCornerRadius(1);
           farbanzeige.setColor(new Color(0,0,0));
