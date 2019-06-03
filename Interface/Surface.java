@@ -465,6 +465,8 @@ public class Surface
             f.remove(infos.get(i));
         }
         switch(Manager.mode){
+            case 1:
+                createInfoBox(215, "Klicke und ziehe mit der Maus in jede Richtung.\nHöhre auf zu drücken wenn du nicht mehr zeichnen möchtst.", new Color(140,140,255));
             case 5:
                 createInfoBox(215, "Mit diesem Werkzeug kannst du Vielecke erzeugen.\nKlicke auf ein das Bild, um den Startpunkt auszuwählen. Klicke danach mehrmals, um eine Form zu erzeugen.", new Color(140,140,255));
                 createInfoBox(270, "Wenn du \"z\" drückst, wird das Vieleck vervollständigt.", new Color(140,140,255));
