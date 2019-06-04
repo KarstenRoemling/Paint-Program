@@ -18,7 +18,7 @@ public class IFButton extends IFComponent
     public IFButton(int width, int height, int x, int y, String txt){
         super(width,height, x, y);
         
-        clr = new Color(255,0,255);
+        clr = new Color(10,30,100);
         foregroundColor = Color.WHITE;
         font = new Font("Dosis", Font.BOLD, 20);
         text = txt;

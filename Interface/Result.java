@@ -64,7 +64,17 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         s.hoch();
         s.bewegeBis(w1, h1);
         s.runter();
-        s.bewegeBis(w2, h2);
+        s.dreheInRichtung(w2,h2);
+        int hypotenuse = (int)Math.sqrt((double)Math.pow(w1 - w2, 2)+Math.pow(h1 - h2, 2));
+        s.bewegeUm(hypotenuse);
+        for(int i = 0; i < Manager.sf.thick; i++){
+            s.dreheUm(90);
+            s.bewegeUm(1);
+            ///int x = (double)s.vPosition();
+            //int y = (double)s.hPosition();
+            s.dreheUm(90);
+            s.bewegeUm(hypotenuse);
+        }
     }
     
     public void clearAll(Color c){
@@ -165,6 +175,10 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 0:
                     neu = true;
                     break;
+                case 7:
+                    s.setzeFarbe(Manager.sf.bgColor);
+                    neu = true;
+                    break;
                 case 6:
                     s.setzeBild("pointer.png");
                     mouseXStart = x;
@@ -194,6 +208,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         setPos(x,y);
         if(!rightClick){
             switch(Manager.mode){
+                case 7:
                 case 0:
                     if(neu){
                         drawPoint(x,y);
@@ -242,6 +257,10 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                     break;
                 case 0:
                     backup();
+                    break;
+                case 7:
+                    backup();
+                    s.setzeFarbe(Manager.sf.getFgColor());
                     break;
             }
         }
