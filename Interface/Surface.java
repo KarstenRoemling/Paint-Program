@@ -12,7 +12,7 @@ public class Surface
     private IgelStift stift;
     private Result rs;
     
-    private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "Vieleck", "Linienkreis"};
+    private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "Vieleck", "Linienkreis", "Radierer"};
     private String savePath = "..\\Images\\bild.png";
     private String pathD = "..\\Images\\";
     private String pathN = "name";
@@ -29,7 +29,9 @@ public class Surface
     
     private IFLabel modeName;
     private IFLabel waText;
-    private IFLabel faText;
+    private IFLabel stText;
+    private IFLabel dtText;
+    private IFLabel ex;
     
     public IFLabel debugInfo;
     
@@ -38,10 +40,14 @@ public class Surface
     private TextField r;
     private TextField g;
     private TextField b;
+    private TextField sThickness;
     
     private int oldR = 0;
     private int oldG = 0;
     private int oldB = 0;
+    
+    public int thick = 1;
+    public Color bgColor;
     
     private ArrayList<IFLabel> infos;
     
@@ -51,35 +57,46 @@ public class Surface
         
         f = new Frame("Werkzeuge und Einstellungen");
         
-        clear = new IFButton(80,30,205,180,"Clear");
-        undo = new IFButton(50,30,290,180,"UNDO");
-        redo = new IFButton(50,30,345,180,"REDO");
-        decrease = new IFButton(30,30,30,180, "<");
-        increase = new IFButton(30,30,170,180, ">");
-        save = new IFButton(100,20,440,85,"Bild speichern");
-        load = new IFButton(100,20,545,85,"Bild laden");
-        farbanzeige = new IFButton(30,30,505,180, "");
-        bgClrSetter = new IFButton(160,30,540,180, "Als Hintergrundfarbe");
+        clear = new IFButton(80,30,205,500,"Clear");
+        undo = new IFButton(50,30,290,500,"UNDO");
+        redo = new IFButton(50,30,345,500,"REDO");
+        decrease = new IFButton(30,30,30,500, "<");
+        increase = new IFButton(30,30,170,500, ">");
+        save = new IFButton(100,20,440,180,"Bild speichern");
+        load = new IFButton(100,20,545,180,"Bild laden");
+        farbanzeige = new IFButton(30,30,135,340, "");
+        bgClrSetter = new IFButton(160,30,170,340, "Als Hintergrundfarbe");
         
-        modeName = new IFLabel(100,30,65,180,modeNames[Manager.mode]);
-        waText = new IFLabel(220,30,30,145,"Werkzeugauswahl");
-        faText = new IFLabel(220,30,400,145, "Farbauswahl");
-        debugInfo = new IFLabel(100,30,705,180, "0; 0");
+        modeName = new IFLabel(100,30,65,500,modeNames[Manager.mode]);
+        dtText = new IFLabel(350,30,30,135, "Datei (Dateipfad, Bildgröße)");
+        waText = new IFLabel(300,30,30,455,"Werkzeugauswahl");
+        stText = new IFLabel(300,30,30,295, "Stift (Farbe, Stiftdicke)");
+        debugInfo = new IFLabel(100,30,650,180, "0; 0");
         
         pathField = new TextField(pathD);
         nameField = new TextField(pathN);
         r = new TextField("0");
         g = new TextField("0");
         b = new TextField("0");
+        sThickness = new TextField("1");
+        
+        updateExample();
+        
+        bgColor = Color.WHITE;
         
         infos = new ArrayList<IFLabel>();
         
         r.addTextListener(new TextListener(){
             public void textValueChanged(TextEvent e){
                 if(validText(r.getText())){
-                    oldR = Integer.parseInt(r.getText());
+                    if(r.getText().length() == 0){
+                        oldR = 0;
+                    }else{
+                        oldR = Integer.parseInt(r.getText());
+                    }
                     farbanzeige.setColor(new Color(oldR, oldG, oldB));
                     rs.s.setzeFarbe(new Color(oldR, oldG, oldB));
+                    updateExample();
                 }else{
                     r.setText(String.valueOf(oldR));
                 }
@@ -89,9 +106,14 @@ public class Surface
         g.addTextListener(new TextListener(){
             public void textValueChanged(TextEvent e){
                 if(validText(g.getText())){
-                    oldG = Integer.parseInt(g.getText());
+                    if(g.getText().length() == 0){
+                        oldG = 0;
+                    }else{
+                        oldG = Integer.parseInt(g.getText());
+                    }
                     farbanzeige.setColor(new Color(oldR, oldG, oldB));
                     rs.s.setzeFarbe(new Color(oldR, oldG, oldB));
+                    updateExample();
                 }else{
                     g.setText(String.valueOf(oldG));
                 }
@@ -101,11 +123,32 @@ public class Surface
         b.addTextListener(new TextListener(){
             public void textValueChanged(TextEvent e){
                 if(validText(b.getText())){
-                    oldB = Integer.parseInt(b.getText());
+                    if(b.getText().length() == 0){
+                        oldB = 0;
+                    }else{
+                        oldB = Integer.parseInt(b.getText());
+                    }
                     farbanzeige.setColor(new Color(oldR, oldG, oldB));
                     rs.s.setzeFarbe(new Color(oldR, oldG, oldB));
+                    updateExample();
                 }else{
                     b.setText(String.valueOf(oldB));
+                }
+            }
+        });
+        
+        sThickness.addTextListener(new TextListener(){
+            public void textValueChanged(TextEvent e){
+                if(validTextNormal1(sThickness.getText())){
+                    if(sThickness.getText().length() == 0){
+                        thick = 1;
+                    }else{
+                        thick = Integer.parseInt(sThickness.getText());
+                    }
+                    updateExample();
+                }else{
+                    System.out.print("invalid");
+                    sThickness.setText(String.valueOf(thick));
                 }
             }
         });
@@ -144,7 +187,7 @@ public class Surface
             }
             
             public void mouseExited(MouseEvent e){
-                undo.setColor(new Color(255,0,255));
+                undo.setColor(new Color(10,30,100));
             }
             
             public void mousePressed(MouseEvent e){
@@ -152,7 +195,7 @@ public class Surface
             }
             
             public void mouseEntered(MouseEvent e){
-                undo.setColor(new Color(150,0,150));
+                undo.setColor(new Color(40,50,140));
             }
             
             public void mouseReleased(MouseEvent e){
@@ -171,7 +214,7 @@ public class Surface
             }
             
             public void mouseExited(MouseEvent e){
-                redo.setColor(new Color(255,0,255));
+                redo.setColor(new Color(10,30,100));
             }
             
             public void mousePressed(MouseEvent e){
@@ -179,7 +222,7 @@ public class Surface
             }
             
             public void mouseEntered(MouseEvent e){
-                redo.setColor(new Color(150,0,150));
+                redo.setColor(new Color(40,50,140));
             }
             
             public void mouseReleased(MouseEvent e){
@@ -190,11 +233,13 @@ public class Surface
         bgClrSetter.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                rs.clearAll(new Color(oldR, oldG, oldB));
+                Color c = new Color(oldR, oldG, oldB);
+                rs.clearAll(c);
+                bgColor = c;
             }
             
             public void mouseExited(MouseEvent e){
-                bgClrSetter.setColor(new Color(255,0,255));
+                bgClrSetter.setColor(new Color(10,30,100));
             }
             
             public void mousePressed(MouseEvent e){
@@ -202,7 +247,7 @@ public class Surface
             }
             
             public void mouseEntered(MouseEvent e){
-                bgClrSetter.setColor(new Color(150,0,150));
+                bgClrSetter.setColor(new Color(40,50,140));
             }
             
             public void mouseReleased(MouseEvent e){
@@ -222,7 +267,7 @@ public class Surface
             }
             
             public void mouseExited(MouseEvent e){
-                save.setColor(new Color(255,0,255));
+                save.setColor(new Color(10,30,100));
             }
             
             public void mousePressed(MouseEvent e){
@@ -230,7 +275,7 @@ public class Surface
             }
             
             public void mouseEntered(MouseEvent e){
-                save.setColor(new Color(150,0,150));
+                save.setColor(new Color(40,50,140));
             }
             
             public void mouseReleased(MouseEvent e){
@@ -251,7 +296,7 @@ public class Surface
             }
             
             public void mouseExited(MouseEvent e){
-                load.setColor(new Color(255,0,255));
+                load.setColor(new Color(10,30,100));
             }
             
             public void mousePressed(MouseEvent e){
@@ -259,7 +304,7 @@ public class Surface
             }
             
             public void mouseEntered(MouseEvent e){
-                load.setColor(new Color(150,0,150));
+                load.setColor(new Color(40,50,140));
             }
             
             public void mouseReleased(MouseEvent e){
@@ -278,7 +323,7 @@ public class Surface
             }
             
             public void mouseExited(MouseEvent e){
-                decrease.setColor(new Color(255,0,255));
+                decrease.setColor(new Color(10,30,100));
             }
             
             public void mousePressed(MouseEvent e){
@@ -286,7 +331,7 @@ public class Surface
             }
             
             public void mouseEntered(MouseEvent e){
-                decrease.setColor(new Color(150,0,150));
+                decrease.setColor(new Color(40,50,140));
             }
             
             public void mouseReleased(MouseEvent e){
@@ -305,7 +350,7 @@ public class Surface
             }
             
             public void mouseExited(MouseEvent e){
-                increase.setColor(new Color(255,0,255));
+                increase.setColor(new Color(10,30,100));
             }
             
             public void mousePressed(MouseEvent e){
@@ -313,7 +358,7 @@ public class Surface
             }
             
             public void mouseEntered(MouseEvent e){
-                increase.setColor(new Color(150,0,150));
+                increase.setColor(new Color(40,50,140));
             }
             
             public void mouseReleased(MouseEvent e){
@@ -341,6 +386,15 @@ public class Surface
         nameField.setText(pathN);
     }
     
+    public void updateExample(){
+        if(ex != null){
+            f.remove(ex);
+        }
+        ex = new IFLabel(thick, thick, 65+(30-thick)/2, 375+(30-thick)/2, "");
+        ex.setColor(new Color(oldR, oldG, oldB));
+        f.add(ex);
+    }
+    
     public boolean validText(String str){
         boolean valid = true;
         try{
@@ -350,6 +404,25 @@ public class Surface
             }
         }catch(Exception e){
             valid = false;
+        }
+        if(str.length() == 0){
+            valid = true;
+        }
+        return valid;
+    }
+    
+    public boolean validTextNormal1(String str){
+        boolean valid = true;
+        try{
+            int i = Integer.parseInt(str);
+            if(i < 1){
+                valid = false;
+            }
+        }catch(Exception e){
+            valid = false;
+        }
+        if(str.length() == 0){
+            valid = true;
         }
         return valid;
     }
@@ -387,35 +460,42 @@ public class Surface
           int w = (int)(Manager.w / 2)-20;
           int h = (int)(Manager.h * 0.96);
           
-          Font subHeading = new Font("Dosis", Font.PLAIN, 24);
-          Font heading = new Font("Dosis", Font.BOLD, 30);
+          Font subHeading = new Font("Dosis", Font.BOLD, 24);
+          Font heading = new Font("Dosis", Font.BOLD, 35);
           Font normal = new Font("Dosis", Font.PLAIN, 18);
           Font small = new Font("Dosis", Font.PLAIN, 12);
           
-          IFLabel label = new IFLabel(250,40,30,30,"Einstellungen");
+          IFLabel label = new IFLabel(250,50,30,45,"Einstellungen");
           
           f.setLayout(null);
           
-          pathField.setBounds(30, 85, 300, 20);
+          pathField.setBounds(30, 180, 300, 20);
           f.add(pathField);
           
-          nameField.setBounds(335, 85, 100, 20);
+          nameField.setBounds(335, 180, 100, 20);
           f.add(nameField);
           
-          r.setBounds(400,180,30,30);
+          r.setBounds(30,340,30,30);
           f.add(r);
-          g.setBounds(435,180,30,30);
+          g.setBounds(65,340,30,30);
           f.add(g);
-          b.setBounds(470,180,30,30);
+          b.setBounds(100,340,30,30);
           f.add(b);
+          
+          sThickness.setBounds(30,375,30,30);
+          f.add(sThickness);
           
           waText.setFont(subHeading);
           waText.setPositionType(IFLabel.P_LEFT_CENTER);
           f.add(waText);
           
-          faText.setFont(subHeading);
-          faText.setPositionType(IFLabel.P_LEFT_CENTER);
-          f.add(faText);
+          dtText.setFont(subHeading);
+          dtText.setPositionType(IFLabel.P_LEFT_CENTER);
+          f.add(dtText);
+          
+          stText.setFont(subHeading);
+          stText.setPositionType(IFLabel.P_LEFT_CENTER);
+          f.add(stText);
           
           debugInfo.setFont(normal);
           f.add(debugInfo);
@@ -463,8 +543,6 @@ public class Surface
           label.setFont(heading);
           label.setUnderlining(true);
           label.setPositionType(IFLabel.P_LEFT_CENTER);
-          
-          IFLabel i = new IFLabel(30,50,30,215, "i");
 
           f.setSize(w, h);
           f.setVisible(true);
@@ -476,12 +554,12 @@ public class Surface
         }
         switch(Manager.mode){
             case 0:
-                createInfoBox(215, "Freihandzeichnen: Klicke und ziehe mit der Maus in jede Richtung.\nHöre auf zu drücken, wenn du nicht mehr zeichnen möchtst.", new Color(140,140,255));
+                createInfoBox(535, "Freihandzeichnen: Klicke und ziehe mit der Maus in jede Richtung.\nHöre auf zu drücken, wenn du nicht mehr zeichnen möchtst.", new Color(140,140,255));
                 break;
             case 5:
-                createInfoBox(215, "Mit diesem Werkzeug kannst du Vielecke erzeugen.\nKlicke auf ein das Bild, um den Startpunkt auszuwählen. Klicke danach mehrmals, um eine Form zu erzeugen.", new Color(140,140,255));
-                createInfoBox(270, "Wenn du \"z\" drückst, wird das Vieleck vervollständigt.", new Color(140,140,255));
-                createInfoBox(325, "Mit der Taste \"c\" wird das Erstellen abgebrochen.", new Color(140,140,255));
+                createInfoBox(535, "Mit diesem Werkzeug kannst du Vielecke erzeugen.\nKlicke auf ein das Bild, um den Startpunkt auszuwählen. Klicke danach mehrmals, um eine Form zu erzeugen.", new Color(140,140,255));
+                createInfoBox(590, "Wenn du \"z\" drückst, wird das Vieleck vervollständigt.", new Color(140,140,255));
+                createInfoBox(645, "Mit der Taste \"c\" wird das Erstellen abgebrochen.", new Color(140,140,255));
                 break;
         }
     }
@@ -510,5 +588,9 @@ public class Surface
         
         f.add(i);
         f.add(infoText);
+    }
+    
+    public Color getFgColor(){
+        return new Color(oldR, oldG, oldB);
     }
 }
