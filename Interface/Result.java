@@ -61,20 +61,8 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     }
     
     public void drawLine(int w1, int h1, int w2, int h2){
-        s.hoch();
-        s.bewegeBis(w1, h1);
-        s.runter();
-        s.dreheInRichtung(w2,h2);
-        int hypotenuse = (int)Math.sqrt((double)Math.pow(w1 - w2, 2)+Math.pow(h1 - h2, 2));
-        s.bewegeUm(hypotenuse);
-        for(int i = 0; i < Manager.sf.thick; i++){
-            s.dreheUm(90);
-            s.bewegeUm(1);
-            ///int x = (double)s.vPosition();
-            //int y = (double)s.hPosition();
-            s.dreheUm(90);
-            s.bewegeUm(hypotenuse);
-        }
+            s.setzeLinienBreite(Manager.sf.thick*2);
+            s.linie((double)w1,(double)h1,(double)w2,(double)h2);
     }
     
     public void clearAll(Color c){
@@ -96,8 +84,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     public void drawPoint(int x, int y){
         s.hoch();
         s.bewegeBis(x, y);
-        s.runter();
-        s.bewegeBis(x, y);
+        s.zeichneRechteck((double)Manager.sf.thick/2, (double)Manager.sf.thick/2);
         s.hoch();
     }
     
