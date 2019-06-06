@@ -48,6 +48,7 @@ public class Surface
     
     public int thick = 1;
     public Color bgColor;
+    public boolean rounded = true;
     
     private ArrayList<IFLabel> infos;
     
@@ -145,6 +146,7 @@ public class Surface
                     }else{
                         thick = Integer.parseInt(sThickness.getText());
                     }
+                    rs.s.setzeLinienBreite(thick);
                     updateExample();
                 }else{
                     System.out.print("invalid");

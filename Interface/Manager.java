@@ -34,6 +34,9 @@ public class Manager
             case 6:
                 result.s.setzeBild("kreuz.png");
                 break;
+            case 7:
+                result.s.setzeBild("eraser.png");
+                break;
         }
         Manager.sf.refresh();
         result.defaults();
