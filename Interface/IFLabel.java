@@ -91,7 +91,12 @@ public class IFLabel extends IFComponent
     public void beforeImage(Graphics2D g2){
     }
     
+    public void beforeText(Graphics2D g2){ 
+    }
+    
     public void afterImage(Graphics2D g2){
+        beforeText(g2);
+        
         g2.setRenderingHint(
             RenderingHints.KEY_TEXT_ANTIALIASING,
             RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);

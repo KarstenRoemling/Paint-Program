@@ -31,7 +31,10 @@ public class Surface
     private IFLabel waText;
     private IFLabel stText;
     private IFLabel dtText;
-    private IFLabel ex;
+    
+    private RoundedOrNot ex;
+    
+    private IFCheckbox cRound;
     
     public IFLabel debugInfo;
     
@@ -73,6 +76,8 @@ public class Surface
         waText = new IFLabel(300,30,30,455,"Werkzeugauswahl");
         stText = new IFLabel(300,30,30,295, "Stift (Farbe, Stiftdicke)");
         debugInfo = new IFLabel(100,30,650,180, "0; 0");
+        
+        cRound = new IFCheckbox(130,30,100,375,rounded, "Abgerundet");
         
         pathField = new TextField(pathD);
         nameField = new TextField(pathN);
@@ -285,6 +290,31 @@ public class Surface
             }
         });
         
+        cRound.addMouseListener(new MouseListener()
+        {
+            public void mouseClicked(MouseEvent e){
+                cRound.handleClick();
+                rounded = cRound.getChecked();
+                updateExample();
+            }
+            
+            public void mouseExited(MouseEvent e){
+                cRound.setColor(new Color(10,30,100));
+            }
+            
+            public void mousePressed(MouseEvent e){
+                cRound.animCR(3, 0.2);
+            }
+            
+            public void mouseEntered(MouseEvent e){
+                cRound.setColor(new Color(40,50,140));
+            }
+            
+            public void mouseReleased(MouseEvent e){
+                cRound.animCR(1, -0.2);
+            }
+        });
+        
         load.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
@@ -392,8 +422,7 @@ public class Surface
         if(ex != null){
             f.remove(ex);
         }
-        ex = new IFLabel(thick, thick, 65+(30-thick)/2, 375+(30-thick)/2, "");
-        ex.setColor(new Color(oldR, oldG, oldB));
+        ex = new RoundedOrNot(thick, rounded, new Color(oldR, oldG, oldB));
         f.add(ex);
     }
     
@@ -506,6 +535,9 @@ public class Surface
           farbanzeige.setCornerRadius(1);
           farbanzeige.setColor(new Color(0,0,0));
           f.add(farbanzeige);
+          
+          cRound.setCornerRadius(1);
+          f.add(cRound);
           
           clear.setFont(normal);
           clear.setCornerRadius(1);
