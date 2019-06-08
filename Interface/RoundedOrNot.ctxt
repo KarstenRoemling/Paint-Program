@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=RoundedOrNot
+comment1.params=thick\ rounded\ color
+comment1.target=RoundedOrNot(int,\ boolean,\ java.awt.Color)
+comment2.params=g2
+comment2.target=void\ beforeText(java.awt.Graphics2D)
+numComments=3

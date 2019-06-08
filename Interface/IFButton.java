@@ -28,51 +28,8 @@ public class IFButton extends IFComponent
     }
     
     public void paintST(){
-        int color = clr.getRGB();
-        for(int by = 0; by < h; by++){
-            for(int bx = 0; bx < w; bx++){
-                if(by <= h/2){
-                    if(bx <= w/2){
-                        //PROBIEREN DIE DIE ANDEREN MÖGLICHKEITEN GERNE AUCH AUS! TW. AMÜSANT.
-                        //double num = cr*(1-Math.sin(0.5 * Math.PI *((double)by / (double)cr)));
-                        //double num = cr*(Math.pow(((double)cr-(double)by) / (double)cr, 2));
-                        double num = cr*(Math.pow((double)by / cr, -1));
-                        if(cr <= 0){
-                            num = 0;
-                        }
-                        if(bx > (int)num){
-                            b.setRGB(bx, by, color);
-                        }
-                        else if(bx == (int)num){
-                            b.setRGB(bx, by, mixOfColors(Color.WHITE, clr, (double)(Math.floor(num)+1.0)-(double)num).getRGB());
-                        }
-                        else{
-                            b.setRGB(bx, by, Color.WHITE.getRGB());
-                        }
-                        
-                        final double num2 = cr*(Math.pow((double)bx / cr, -1));
-                        if(by == (int)num2){
-                            b.setRGB(bx, by, mixOfColors(new Color(b.getRGB(bx,by)), clr, (double)(Math.floor(num2)+1.0)-(double)num2).getRGB());
-                        }
-                    }
-                    else{
-                        b.setRGB(bx, by, b.getRGB(w-bx-1, by));
-                    }
-                }
-                else{
-                    b.setRGB(bx, by, b.getRGB(bx, h-by-1));
-                }
-            }
-        }
+        roundedBg(cr, clr);
         repaint();
-    }
-    
-    public int mixOf(double value1, double value2, double preference){
-        return (int) ((value2 - value1) * preference + value1);
-    }
-    
-    public Color mixOfColors(Color c1, Color c2, double pref){
-        return new Color(mixOf((double)c1.getRed(), (double)c2.getRed(), pref),mixOf((double)c1.getGreen(), (double)c2.getGreen(), pref),mixOf((double)c1.getBlue(), (double)c2.getBlue(), pref));
     }
     
     public void setColor(Color color){

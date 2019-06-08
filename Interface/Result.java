@@ -62,70 +62,34 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         }
     }
     
-    public void drawLine(int w1, int h1, int w2, int h2){
-        setPos(w1,h1);
-        s.runter();
-        s.bewegeBis(w2,h2);
-        s.hoch();
+    public void drawLine(int w1, int h1, int w2, int h2, boolean r){
+        if(r){
+            Vektor2D vInit = new Vektor2D(w1,h1,w2,h2);
+            int i = Manager.sf.thick/2;
+            if(w1 != w2 || h1 != h2){
+                do{
+                    Vektor2D v = new Vektor2D(vInit.getRichtung(), i);
+                    drawPoint(w1+(int)v.getDx(), h1+(int)v.getDy(), r);
+                    i++;
+                }while(i < vInit.getLaenge()-Manager.sf.thick/2);
+            }else{
+                drawPoint(w1,h1,r);
+            }
+            setPos(w2,h2);
+        }else{
+            setPos(w1,h1);
+            s.runter();
+            s.bewegeBis(w2,h2);
+            s.hoch();
+        }
     }
     
-    public void drawRLine(int w1, int h1, int w2, int h2){
-        Vektor2D vRichtung = new Vektor2D(w1,h1,w2,h2);
-        boolean positiv = vRichtung.getLaenge() >= 0;
-        int dist;
-        if(Manager.sf.thick > vRichtung.getLaenge()/2){
-            dist = (int)vRichtung.getLaenge()/2;
-        }else{
-            dist = Manager.sf.thick;
+    public void drawLineEnding(int w1, int h1, int w2, int h2, boolean r){
+        Vektor2D vInit = new Vektor2D(w1,h1,w2,h2);
+        for(int i = 0; i < vInit.getLaenge(); i++){
+            Vektor2D v = new Vektor2D(vInit.getRichtung(), i);
+            drawPoint(w1+(int)v.getDx(), h1+(int)v.getDy(), r);
         }
-        Vektor2D v = new Vektor2D(vRichtung.getRichtung(), dist);
-        Vektor2D v2 = new Vektor2D(vRichtung.getRichtung(), Manager.sf.thick);
-        setPos(w1+(int)v.getDx(), h1+(int)v.getDy());
-        drawRPoint(w1+(int)v.getDx()/2, h1+(int)v.getDy()/2);
-        if(positiv == vRichtung.getLaenge()- 2*v2.getLaenge() >= 0){
-            drawLine(w1+(int)v2.getDx(), h1+(int)v2.getDy(), w2-(int)v2.getDx(), h2-(int)v2.getDy());
-        }
-        drawRPoint(w2-(int)v.getDx()/2, h2-(int)v.getDy()/2);
-        setPos(w2,h2);
-    }
-    
-    public void drawRLineEnding(int w1, int h1, int w2, int h2){
-        Vektor2D vRichtung = new Vektor2D(w1,h1,w2,h2);
-        boolean positiv = vRichtung.getLaenge() >= 0;
-        int dist;
-        if(Manager.sf.thick > vRichtung.getLaenge()/2){
-            dist = (int)vRichtung.getLaenge()/2;
-        }else{
-            dist = Manager.sf.thick/2;
-        }
-        Vektor2D v = new Vektor2D(vRichtung.getRichtung(), dist);
-        Vektor2D v2 = new Vektor2D(vRichtung.getRichtung(), Manager.sf.thick/2);
-        setPos(w1+(int)v.getDx(), h1+(int)v.getDy());
-        drawRPoint(w1+(int)v.getDx()/2, h1+(int)v.getDy()/2);
-        if(positiv == vRichtung.getLaenge()- 2*v2.getLaenge() >= 0){
-            drawLine(w1+(int)v2.getDx(), h1+(int)v2.getDy(), w2-(int)v2.getDx(), h2-(int)v2.getDy());
-        }
-        drawRPoint(w2-(int)v.getDx()/2, h2-(int)v.getDy()/2);
-        setPos(w2,h2);
-    }
-    
-    public void drawLineEnding(int w1, int h1, int w2, int h2){
-        Vektor2D vRichtung = new Vektor2D(w1,h1,w2,h2);
-        boolean positiv = vRichtung.getLaenge() >= 0;
-        int dist;
-        if(Manager.sf.thick > vRichtung.getLaenge()/2){
-            dist = (int)vRichtung.getLaenge()/2;
-        }else{
-            dist = Manager.sf.thick/2;
-        }
-        Vektor2D v = new Vektor2D(vRichtung.getRichtung(), dist);
-        Vektor2D v2 = new Vektor2D(vRichtung.getRichtung(), Manager.sf.thick/2);
-        setPos(w1+(int)v.getDx(), h1+(int)v.getDy());
-        drawPoint(w1+(int)v.getDx()/2, h1+(int)v.getDy()/2);
-        if(positiv == vRichtung.getLaenge()- 2*v2.getLaenge() >= 0){
-            drawLine(w1+(int)v2.getDx(), h1+(int)v2.getDy(), w2-(int)v2.getDx(), h2-(int)v2.getDy());
-        }
-        drawPoint(w2-(int)v.getDx()/2, h2-(int)v.getDy()/2);
         setPos(w2,h2);
     }
     
@@ -145,18 +109,15 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         s.bewegeBis(x, y);
     }
     
-    public void drawPoint(int x, int y){
+    public void drawPoint(int x, int y, boolean r){
         setPos(x,y);
-        s.runter();
-        s.bewegeBis(x,y);
-        s.hoch();
-    }
-    
-    public void drawRPoint(int x, int y){
-        setPos(x,y);
-        s.setzeLinienBreite(Manager.sf.thick/2);
-        s.zeichneKreis(Manager.sf.thick/4);
-        s.setzeLinienBreite(Manager.sf.thick);
+        if(r){
+            s.setzeLinienBreite(Manager.sf.thick/2);
+            s.zeichneKreis(Manager.sf.thick/4);
+            s.setzeLinienBreite(Manager.sf.thick);
+        }else{
+            drawLine(x,y,x,y,false);
+        }
     }
     
     public void drawCircle(int px, int py, int r){
@@ -166,14 +127,14 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         dx=3; dxy=-2*r+5;
         while (y>=x)
         {
-           drawRPoint(px+x, py+y);
-           drawRPoint(px+y, py+x);
-           drawRPoint(px+y, py-x);
-           drawRPoint(px+x, py-y);
-           drawRPoint(px-x, py-y);
-           drawRPoint(px-y, py-x);
-           drawRPoint(px-y, py+x);
-           drawRPoint(px-x, py+y);
+           drawPoint(px+x, py+y, true);
+           drawPoint(px+y, py+x, true);
+           drawPoint(px+y, py-x, true);
+           drawPoint(px+x, py-y, true);
+           drawPoint(px-x, py-y, true);
+           drawPoint(px-y, py-x, true);
+           drawPoint(px-y, py+x, true);
+           drawPoint(px-x, py+y, true);
 
            if (d<0) { d=d+dx;  dx=dx+2; dxy=dxy+2; x++; }
            else { d=d+dxy; dx=dx+2; dxy=dxy+4; x++; y--; }
@@ -269,18 +230,10 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 7:
                 case 0:
                     if(neu){
-                        if(Manager.sf.rounded){
-                            drawRPoint(x,y);
-                        }else{
-                            drawPoint(x,y);
-                        }
+                        drawPoint(x,y,Manager.sf.rounded);
                         neu = false;
                     }else{
-                        if(Manager.sf.rounded){
-                            drawRLineEnding(mouseXStart, mouseYStart, x, y);
-                        }else{
-                            drawLineEnding(mouseXStart, mouseYStart, x, y);
-                        }
+                        drawLineEnding(mouseXStart, mouseYStart, x, y, Manager.sf.rounded);
                     }
                     mouseXStart = x;
                     mouseYStart = y;
@@ -288,7 +241,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 1:
                     break;
                 case 6:
-                    drawLine(mouseXStart, mouseYStart, x, y);
+                    drawLine(mouseXStart, mouseYStart, x, y, Manager.sf.rounded);
                     break;
             }
         }
@@ -306,11 +259,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                     break;
                 case 1:
                     s.setzeBild("kreuz.png");
-                    if(Manager.sf.rounded){
-                        drawRLine(mouseXStart, mouseYStart, x, y);
-                    }else{
-                        drawLine(mouseXStart, mouseYStart, x, y);
-                    }
+                    drawLine(mouseXStart, mouseYStart, x, y, Manager.sf.rounded);
                     backup();
                     break;
                 case 6:
@@ -348,16 +297,12 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
             switch(Manager.mode){
                 case 7:
                 case 0:
-                    if(Manager.sf.rounded){
-                        drawRPoint(x, y);
-                    }else{
-                        drawPoint(x,y);
-                    }
+                    drawPoint(x,y,Manager.sf.rounded);
                     backup();
                     break;
                 case 5:            
                     if(!firstClick){
-                        drawRLineEnding(mouseXStart, mouseYStart, x, y);
+                        drawLineEnding(mouseXStart, mouseYStart, x, y, Manager.sf.rounded);
                         mouseXStart = x;
                         mouseYStart = y;
                     }else{
@@ -400,7 +345,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 5:
                     switch(t){
                         case 'z':
-                            drawRLineEnding(mouseXStart, mouseYStart, completeXStart, completeYStart);
+                            drawLineEnding(mouseXStart, mouseYStart, completeXStart, completeYStart, Manager.sf.rounded);
                             firstClick = true;
                             s.setzeBild("kreuz.png");
                             backup();
