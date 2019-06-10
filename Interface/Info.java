@@ -3,42 +3,24 @@ import java.util.*;
 import java.awt.*; 
 import basis.*;
     
-public class Info
+public class Info extends IFDialog
 {
-    private Frame f;
-    private IFLabel label;
     private IFButton ok;
-    private int width = 500;
-    private int height = 250;
     
     public Info(String text, boolean warning)
     {
-          f = new Frame("Info");
-          f.addWindowListener(new WindowManager(false));
-          label = new IFLabel(width,50,0,50, text);
-          label.setFont(new Font("Dosis", Font.PLAIN, 18));
-          f.add(label);
-          f.setLayout(null);
-          f.setSize(width, height);
-          f.setVisible(true);
-          f.setLocation((Manager.w - width)/2,250);
+          super(text, warning, 250, 500);
+          
           ok = new IFButton(100,40,200,125,"Ok");
           ok.setFont(new Font("Dosis", Font.BOLD, 18));
           ok.setCornerRadius(1);
-          f.add(ok);
-          
-          if(warning){
-              label.setForegroundColor(new Color(255,0,0));
-          }
           
           ok.addMouseListener(new MouseListener()
           {        
-                public void mouseClicked(MouseEvent e){
-                    f.dispose();
-                }
+                public void mouseClicked(MouseEvent e){}
                 
                 public void mouseExited(MouseEvent e){
-                    ok.setColor(new Color(255,0,255));
+                    ok.setColor(new Color(10,30,100));
                 }
                 
                 public void mousePressed(MouseEvent e){
@@ -46,12 +28,20 @@ public class Info
                 }
                 
                 public void mouseEntered(MouseEvent e){
-                    ok.setColor(new Color(150,0,150));
+                    ok.setColor(new Color(40,50,140));
                 }
                 
                 public void mouseReleased(MouseEvent e){
                     ok.animCR(1, -0.2);
                 }
           });
+          
+          setButtons(new IFButton[]{ok});
+          
+          if(warning){
+              f.setTitle("Warnung!");
+          }else{
+              f.setTitle("Info"); 
+          }
     }
 }

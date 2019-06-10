@@ -265,12 +265,7 @@ public class Surface
         save.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
-                boolean success = rs.b1.speichereBildUnter(getPath(false));
-                if(success){
-                    new Info("Das Bild wurde erfolgreich gespeichert.", false);
-                }else{
-                    new Info("Das Bild konnte nich gespeichert werden. Ein Fehler ist aufgetreten.", true);
-                }
+                savingProcedure(false);
             }
             
             public void mouseExited(MouseEvent e){
@@ -416,6 +411,71 @@ public class Surface
         
         pathField.setText(pathD);
         nameField.setText(pathN);
+    }
+    
+    public void savingProcedure(boolean accepted){
+        if(new File(getPath(false)).exists() && !accepted){
+            IFButton cancel = new IFButton(100,40,0,0,"Abbrechen");
+            cancel.setFont(new Font("Dosis", Font.BOLD, 18));
+            cancel.setCornerRadius(1);
+            cancel.addMouseListener(new MouseListener()
+            {        
+                public void mouseClicked(MouseEvent e){}
+                
+                public void mouseExited(MouseEvent e){
+                    cancel.setColor(new Color(10,30,100));
+                }
+                
+                public void mousePressed(MouseEvent e){
+                    cancel.animCR(3, 0.2);
+                }
+                
+                public void mouseEntered(MouseEvent e){
+                    cancel.setColor(new Color(40,50,140));
+                }
+                
+                public void mouseReleased(MouseEvent e){
+                    cancel.animCR(1, -0.2);
+                }
+            });
+            
+            IFButton accept = new IFButton(100,40,0,0,"Fortfahren");
+            accept.setFont(new Font("Dosis", Font.BOLD, 18));
+            accept.setCornerRadius(1);
+            accept.setColor(new Color(100,30,100));
+            accept.addMouseListener(new MouseListener()
+            {        
+                public void mouseClicked(MouseEvent e){
+                    savingProcedure(true);
+                }
+                
+                public void mouseExited(MouseEvent e){
+                    accept.setColor(new Color(100,30,100));
+                }
+                
+                public void mousePressed(MouseEvent e){
+                    accept.animCR(3, 0.2);
+                }
+                
+                public void mouseEntered(MouseEvent e){
+                    accept.setColor(new Color(140,50,140));
+                }
+                
+                public void mouseReleased(MouseEvent e){
+                    accept.animCR(1, -0.2);
+                }
+            });
+            
+            IFDialog d = new IFDialog("Unter dem angegebenen Pfad ist bereits ein Bild.\nWenn du fortfährst, wird das Bild überschrieben",false,250,500);
+            d.setButtons(new IFButton[]{accept,cancel});
+        }else{
+            boolean success = rs.b1.speichereBildUnter(getPath(false));
+            if(success){
+                new Info("Das Bild wurde erfolgreich gespeichert.", false);
+            }else{
+                new Info("Das Bild konnte nich gespeichert werden. Ein Fehler ist aufgetreten.", true);
+            }
+        }
     }
     
     public void updateExample(){
