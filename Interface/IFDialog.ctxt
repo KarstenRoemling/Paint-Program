@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=IFDialog
+comment1.params=text\ warning\ h\ w
+comment1.target=IFDialog(java.lang.String,\ boolean,\ int,\ int)
+comment2.params=buttons
+comment2.target=void\ setButtons(IFButton[])
+comment3.params=
+comment3.target=void\ createButtons()
+comment4.params=e
+comment4.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment5.params=e
+comment5.target=void\ mouseExited(java.awt.event.MouseEvent)
+comment6.params=e
+comment6.target=void\ mousePressed(java.awt.event.MouseEvent)
+comment7.params=e
+comment7.target=void\ mouseEntered(java.awt.event.MouseEvent)
+comment8.params=e
+comment8.target=void\ mouseReleased(java.awt.event.MouseEvent)
+numComments=9
