@@ -650,10 +650,25 @@ public class Surface
             case 0:
                 createInfoBox(535, "Freihandzeichnen: Klicke und ziehe mit der Maus in jede Richtung.\nHöre auf zu drücken, wenn du nicht mehr zeichnen möchtst.", new Color(140,140,255));
                 break;
+            case 1:
+                createInfoBox(535, "Linienzeichnen: Suche dir einen Punkt aus, clicke und ziehe zu einem anderen Punkt\nund lasse los. Zwischen Startpunkt und Endpunkt entsteht nun eine Linie.", new Color(140,140,255));
+                break;
+            case 3:
+                createInfoBox(535, "Kreisezeichnen: Klicke und ziehe von einem Punkt aus soweit wie du möchtest, um die\nGröße des Kreises festzulegen. Lasse los und der Kreis erscheint in der von dir ausgewählten Größe.", new Color(140,140,255));
+                break;
+            case 4:
+                createInfoBox(535, "Rechteckezeichnen: Klicke und ziehe von einem Punkt aus soweit wie du möchtest, um die\nGröße des Rechtecks festzulegen.  Lasse los und das Rechteck erscheint in der von dir ausgewählten Größe.", new Color(140,140,255));
+                break;
             case 5:
                 createInfoBox(535, "Mit diesem Werkzeug kannst du Vielecke erzeugen.\nKlicke auf ein das Bild, um den Startpunkt auszuwählen. Klicke danach mehrmals, um eine Form zu erzeugen.", new Color(140,140,255));
                 createInfoBox(590, "Wenn du \"z\" drückst, wird das Vieleck vervollständigt.", new Color(140,140,255));
                 createInfoBox(645, "Mit der Taste \"c\" wird das Erstellen abgebrochen.", new Color(140,140,255));
+                break;
+            case 6:
+                createInfoBox(535, "Linienkreise: Klicke auf einen Punkt und ziehe den Mauszeiger kreisförmig um diesen\nPunkt und es entstehen Linien vom Startpunkt aus zu Punkten über welche sie mit dem Mauszeiger berührt haben.", new Color(140,140,255));
+                break;
+            case 7:
+                createInfoBox(535, "Radierer: Mit diesem Werkzeug kannst du Gezeichnetes löschen. Klicke und ziehe über\netwas gemaltes und es nimmt die Farbe des Hintergrunds an.", new Color(140,140,255));
                 break;
         }
     }
