@@ -37,6 +37,9 @@ public class Manager
             case 7:
                 result.s.setzeBild("eraser.png");
                 break;
+            case 8:
+                result.s.setzeBild("fill.png");
+                break;
         }
         Manager.sf.refresh();
         result.defaults();

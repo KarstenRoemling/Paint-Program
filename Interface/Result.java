@@ -196,6 +196,9 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                     break;
                 case 7:
                     s.setzeFarbe(Manager.sf.bgColor);
+                    if(Manager.sf.eraseWhite){
+                        s.setzeFarbe(Color.WHITE);
+                    }
                     neu = true;
                     break;
                 case 6:
@@ -313,6 +316,10 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                         s.setzeBild("kreuzDragging.png");
                         firstClick = false;
                     }
+                    break;
+                case 8:
+                    s.fuelleMitFarbeAn((double)x, (double)y,new Color (Manager.sf.oldR, Manager.sf.oldG, Manager.sf.oldB));
+                    backup();
                     break;
             }
         }

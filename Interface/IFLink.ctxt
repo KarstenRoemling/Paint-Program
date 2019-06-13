@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=IFLink
+comment1.params=width\ height\ x\ y\ text\ url
+comment1.target=IFLink(int,\ int,\ int,\ int,\ java.lang.String,\ java.lang.String)
+comment2.params=e
+comment2.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment3.params=e
+comment3.target=void\ mouseExited(java.awt.event.MouseEvent)
+comment4.params=e
+comment4.target=void\ mousePressed(java.awt.event.MouseEvent)
+comment5.params=e
+comment5.target=void\ mouseEntered(java.awt.event.MouseEvent)
+comment6.params=e
+comment6.target=void\ mouseReleased(java.awt.event.MouseEvent)
+comment7.params=c
+comment7.target=void\ setHoverColor(java.awt.Color)
+comment8.params=c
+comment8.target=void\ setActiveColor(java.awt.Color)
+comment9.params=c
+comment9.target=void\ setStandardColor(java.awt.Color)
+numComments=10
