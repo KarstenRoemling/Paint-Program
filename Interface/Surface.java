@@ -12,7 +12,7 @@ public class Surface
     private IgelStift stift;
     private Result rs;
     
-    private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "Vieleck", "Linienkreis", "Radierer"};
+    private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "Vieleck", "Linienkreis", "Radierer","Fläche füllen"};
     private String savePath = "..\\Images\\bild.png";
     private String pathD = "..\\Images\\";
     private String pathN = "name";
@@ -32,6 +32,8 @@ public class Surface
     private IFLabel stText;
     private IFLabel dtText;
     
+    private IFLink wikiLink;
+    
     private RoundedOrNot ex;
     
     private IFCheckbox cRound;
@@ -45,15 +47,21 @@ public class Surface
     private TextField b;
     private TextField sThickness;
     
-    private int oldR = 0;
-    private int oldG = 0;
-    private int oldB = 0;
+    public int oldR = 0;
+    public int oldG = 0;
+    public int oldB = 0;
     
     public int thick = 1;
     public Color bgColor;
     public boolean rounded = true;
+    public boolean eraseWhite = false;
     
-    private ArrayList<IFLabel> infos;
+    public Font subHeading = new Font("Dosis", Font.BOLD, 24);
+    public Font heading = new Font("Dosis", Font.BOLD, 35);
+    public Font normal = new Font("Dosis", Font.PLAIN, 18);
+    public Font small = new Font("Dosis", Font.PLAIN, 12);
+    
+    private ArrayList<IFComponent> infos;
     
     public Surface(Result result)
     {
@@ -77,6 +85,8 @@ public class Surface
         stText = new IFLabel(300,30,30,295, "Stift (Farbe, Stiftdicke)");
         debugInfo = new IFLabel(100,30,650,180, "0; 0");
         
+        wikiLink = new IFLink(100,15,30,90,"Bedienungsanleitung","https://github.com/KarstenRoemling/Paint-Program/wiki");
+        
         cRound = new IFCheckbox(130,30,100,375,rounded, "Abgerundet");
         
         pathField = new TextField(pathD);
@@ -90,7 +100,7 @@ public class Surface
         
         bgColor = Color.WHITE;
         
-        infos = new ArrayList<IFLabel>();
+        infos = new ArrayList<IFComponent>();
         
         r.addTextListener(new TextListener(){
             public void textValueChanged(TextEvent e){
@@ -551,11 +561,6 @@ public class Surface
           int w = (int)(Manager.w / 2)-20;
           int h = (int)(Manager.h * 0.96);
           
-          Font subHeading = new Font("Dosis", Font.BOLD, 24);
-          Font heading = new Font("Dosis", Font.BOLD, 35);
-          Font normal = new Font("Dosis", Font.PLAIN, 18);
-          Font small = new Font("Dosis", Font.PLAIN, 12);
-          
           IFLabel label = new IFLabel(250,50,30,45,"Einstellungen");
           
           f.setLayout(null);
@@ -579,6 +584,10 @@ public class Surface
           waText.setFont(subHeading);
           waText.setPositionType(IFLabel.P_LEFT_CENTER);
           f.add(waText);
+          
+          wikiLink.setFont(small);
+          wikiLink.setPositionType(IFLabel.P_LEFT_CENTER);
+          f.add(wikiLink);
           
           dtText.setFont(subHeading);
           dtText.setPositionType(IFLabel.P_LEFT_CENTER);
@@ -646,12 +655,13 @@ public class Surface
         for(int i = 0; i < infos.size(); i++){
             f.remove(infos.get(i));
         }
+        infos.clear();
         switch(Manager.mode){
             case 0:
                 createInfoBox(535, "Freihandzeichnen: Klicke und ziehe mit der Maus in jede Richtung.\nHöre auf zu drücken, wenn du nicht mehr zeichnen möchtst.", new Color(140,140,255));
                 break;
             case 1:
-                createInfoBox(535, "Linien zeichnen: Suche dir einen Punkt aus, klicke und ziehe zu einem anderen Punkt\nund lasse los. Zwischen Startpunkt und Endpunkt entsteht nun eine Linie.", new Color(140,140,255));
+                createInfoBox(535, "Linien zeichnen: Suche dir einen Punkt aus, klicke und ziehe zu einem anderen Punkt und lasse los.\nZwischen Startpunkt und Endpunkt entsteht nun eine Linie.", new Color(140,140,255));
                 break;
             case 3:
                 createInfoBox(535, "Kreise zeichnen: Klicke und ziehe soweit, wie du möchtest,\num die Größe des Kreises festzulegen.", new Color(140,140,255));
@@ -671,6 +681,36 @@ public class Surface
                 break;
             case 7:
                 createInfoBox(535, "Radierer: Mit diesem Werkzeug kannst du Gezeichnetes löschen. Klicke und ziehe über\netwas Gezeichnetes und es nimmt die Farbe des Hintergrunds an.", new Color(140,140,255));
+                createWET(615);
+                IFCheckbox cb = new IFCheckbox(300,30,30,660,eraseWhite,"Mit weiß radieren");
+                cb.setCornerRadius(1);
+                cb.addMouseListener(new MouseListener()
+                {
+                    public void mouseClicked(MouseEvent e){
+                        cb.handleClick();
+                        eraseWhite = cb.getChecked();
+                    }
+                    
+                    public void mouseExited(MouseEvent e){
+                        cb.setColor(new Color(10,30,100));
+                    }
+                    
+                    public void mousePressed(MouseEvent e){
+                        cb.animCR(3, 0.2);
+                    }
+                    
+                    public void mouseEntered(MouseEvent e){
+                        cb.setColor(new Color(40,50,140));
+                    }
+                    
+                    public void mouseReleased(MouseEvent e){
+                        cb.animCR(1, -0.2);
+                    }
+                });
+                createWE(cb);
+                break;
+            case 8:
+                createInfoBox(535,"Fläche füllen: Klicke auf eine geschlossene Fläche und sie füllt sich mit der ausgewählten Farbe. ", new Color(140,140,255));
                 break;
         }
     }
@@ -699,6 +739,19 @@ public class Surface
         
         f.add(i);
         f.add(infoText);
+    }
+    
+    public void createWET(int y){
+        IFLabel we = new IFLabel(300,30,30,y,"Werkzeugeinstellungen");
+        we.setFont(subHeading);
+        we.setPositionType(IFLabel.P_LEFT_CENTER);
+        f.add(we);
+        infos.add(we);
+    }
+    
+    public void createWE(IFComponent we){
+        f.add(we);
+        infos.add(we);
     }
     
     public Color getFgColor(){
