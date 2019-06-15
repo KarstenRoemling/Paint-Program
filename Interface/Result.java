@@ -24,6 +24,9 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     public ArrayList<BufferedImage> history2;
     
     public boolean rightClick;
+    public int textX;
+    public int textY;
+    public boolean newText;
     
 
     public Result(){
@@ -49,7 +52,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         backup();
     }
     
-    private void backup(){
+    public void backup(){
         if(Manager.swap != history.size()-1){
             for (int i = history.size()-1; i > Manager.swap; i--) {
                history.remove(i);
@@ -320,6 +323,13 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 8:
                     s.fuelleMitFarbeAn((double)x, (double)y,new Color (Manager.sf.oldR, Manager.sf.oldG, Manager.sf.oldB));
                     backup();
+                    break;
+                case 2:
+                    textX = x;
+                    textY = y;
+                    newText = true;
+                    IFTextField text = (IFTextField)Manager.sf.infos.get(1);
+                    text.setText("");
                     break;
             }
         }

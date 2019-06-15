@@ -2,7 +2,6 @@ import basis.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import java.applet.Applet;
 import java.io.*;
 import basis.swing.*;
 
@@ -61,7 +60,7 @@ public class Surface
     public Font normal = new Font("Dosis", Font.PLAIN, 18);
     public Font small = new Font("Dosis", Font.PLAIN, 12);
     
-    private ArrayList<IFComponent> infos;
+    public ArrayList<IFComponent> infos;
     
     public Surface(Result result)
     {
@@ -98,9 +97,9 @@ public class Surface
         g = new IFTextField(30,30,65,340,IFTextField.T_NUMBER);
         g.setText("0");
         b = new IFTextField(30,30,100,340,IFTextField.T_NUMBER);
-        g.setText("0");
+        b.setText("0");
         sThickness = new IFTextField(30,30,30,375,IFTextField.T_NUMBER);
-        sThickness.setText("1");
+        sThickness.setText("10");
         
         updateExample();
         
@@ -408,7 +407,7 @@ public class Surface
         decrease.addMouseListener(dML);
         increase.addMouseListener(iML);
         
-        f.addWindowListener(new WindowManager(true));
+        f.addWindowListener(new WindowManager(true, true));
         launchFrame();
         
         String name = "bild";
@@ -670,6 +669,75 @@ public class Surface
                 break;
             case 1:
                 createInfoBox(535, "Linien zeichnen: Suche dir einen Punkt aus, klicke und ziehe zu einem anderen Punkt und lasse los.\nZwischen Startpunkt und Endpunkt entsteht nun eine Linie.", new Color(140,140,255));
+                break;
+            case 2:
+                rs.s.setzeSchriftArt("Dosis");
+                rs.s.setzeSchriftGroesse(20);
+                createWET(555);
+                IFTextField text = new IFTextField(200,30,30,600,IFTextField.T_TEXT);
+                text.setCornerRadius(1);
+                text.setPositionType(IFTextField.P_LEFT);
+                text.addKeyListener(new KeyListener(){
+                    public void keyPressed(KeyEvent k){}
+                    public void keyReleased(KeyEvent k){}
+                    
+                    public void keyTyped(KeyEvent k){
+                        if(!rs.newText){
+                            Manager.swap--;
+                            setFromHistory();
+                        }else{
+                            rs.newText = false;
+                        }
+                        rs.setPos(rs.textX, rs.textY);
+                        rs.s.schreibeText(text.getText());
+                        rs.backup();
+                    }
+                });
+                createWE(text);
+                IFTextField textFont = new IFTextField(100,30,30,635,IFTextField.T_TEXT);
+                textFont.setCornerRadius(1);
+                textFont.setPositionType(IFTextField.P_LEFT);
+                textFont.setText("Dosis");
+                textFont.addKeyListener(new KeyListener(){
+                    public void keyPressed(KeyEvent k){}
+                    public void keyReleased(KeyEvent k){}
+                    
+                    public void keyTyped(KeyEvent k){
+                        if(!rs.newText){
+                            Manager.swap--;
+                            setFromHistory();
+                        }else{
+                            rs.newText = false;
+                        }
+                        rs.s.setzeSchriftArt(textFont.getText());
+                        rs.setPos(rs.textX, rs.textY);
+                        rs.s.schreibeText(text.getText());
+                        rs.backup();
+                    }
+                });
+                createWE(textFont);
+                IFTextField textSize = new IFTextField(40,30,135,635,IFTextField.T_NUMBER);
+                textSize.setCornerRadius(1);
+                textSize.setPositionType(IFTextField.P_LEFT);
+                textSize.setText("20");
+                textSize.addKeyListener(new KeyListener(){
+                    public void keyPressed(KeyEvent k){}
+                    public void keyReleased(KeyEvent k){}
+                    
+                    public void keyTyped(KeyEvent k){
+                        if(!rs.newText){
+                            Manager.swap--;
+                            setFromHistory();
+                        }else{
+                            rs.newText = false;
+                        }
+                        rs.s.setzeSchriftGroesse(textSize.getNumber());
+                        rs.setPos(rs.textX, rs.textY);
+                        rs.s.schreibeText(text.getText());
+                        rs.backup();
+                    }
+                });
+                createWE(textSize);
                 break;
             case 3:
                 createInfoBox(535, "Kreise zeichnen: Klicke und ziehe soweit, wie du möchtest,\num die Größe des Kreises festzulegen.", new Color(140,140,255));
