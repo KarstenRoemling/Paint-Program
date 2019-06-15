@@ -40,12 +40,12 @@ public class Surface
     
     public IFLabel debugInfo;
     
-    private TextField pathField;
-    private TextField nameField;
-    private TextField r;
-    private TextField g;
-    private TextField b;
-    private TextField sThickness;
+    private IFTextField pathField;
+    private IFTextField nameField;
+    private IFTextField r;
+    private IFTextField g;
+    private IFTextField b;
+    private IFTextField sThickness;
     
     public int oldR = 0;
     public int oldG = 0;
@@ -89,12 +89,18 @@ public class Surface
         
         cRound = new IFCheckbox(130,30,100,375,rounded, "Abgerundet");
         
-        pathField = new TextField(pathD);
-        nameField = new TextField(pathN);
-        r = new TextField("0");
-        g = new TextField("0");
-        b = new TextField("0");
-        sThickness = new TextField("1");
+        pathField = new IFTextField(300,20,30,180,IFTextField.T_TEXT);
+        pathField.setText(pathD);
+        nameField = new IFTextField(100,20,335,180,IFTextField.T_TEXT);
+        nameField.setText(pathN);
+        r = new IFTextField(30,30,30,340,IFTextField.T_NUMBER);
+        r.setText("0");
+        g = new IFTextField(30,30,65,340,IFTextField.T_NUMBER);
+        g.setText("0");
+        b = new IFTextField(30,30,100,340,IFTextField.T_NUMBER);
+        g.setText("0");
+        sThickness = new IFTextField(30,30,30,375,IFTextField.T_NUMBER);
+        sThickness.setText("1");
         
         updateExample();
         
@@ -102,14 +108,13 @@ public class Surface
         
         infos = new ArrayList<IFComponent>();
         
-        r.addTextListener(new TextListener(){
-            public void textValueChanged(TextEvent e){
+        r.addKeyListener(new KeyListener(){
+            public void keyPressed(KeyEvent k){}
+            public void keyReleased(KeyEvent k){}
+            
+            public void keyTyped(KeyEvent k){
                 if(validText(r.getText())){
-                    if(r.getText().length() == 0){
-                        oldR = 0;
-                    }else{
-                        oldR = Integer.parseInt(r.getText());
-                    }
+                    oldR = r.getNumber();
                     farbanzeige.setColor(new Color(oldR, oldG, oldB));
                     rs.s.setzeFarbe(new Color(oldR, oldG, oldB));
                     updateExample();
@@ -119,14 +124,13 @@ public class Surface
             }
         });
         
-        g.addTextListener(new TextListener(){
-            public void textValueChanged(TextEvent e){
+        g.addKeyListener(new KeyListener(){
+            public void keyPressed(KeyEvent k){}
+            public void keyReleased(KeyEvent k){}
+            
+            public void keyTyped(KeyEvent k){
                 if(validText(g.getText())){
-                    if(g.getText().length() == 0){
-                        oldG = 0;
-                    }else{
-                        oldG = Integer.parseInt(g.getText());
-                    }
+                    oldG = g.getNumber();
                     farbanzeige.setColor(new Color(oldR, oldG, oldB));
                     rs.s.setzeFarbe(new Color(oldR, oldG, oldB));
                     updateExample();
@@ -136,14 +140,13 @@ public class Surface
             }
         });
         
-        b.addTextListener(new TextListener(){
-            public void textValueChanged(TextEvent e){
+        b.addKeyListener(new KeyListener(){
+            public void keyPressed(KeyEvent k){}
+            public void keyReleased(KeyEvent k){}
+            
+            public void keyTyped(KeyEvent k){
                 if(validText(b.getText())){
-                    if(b.getText().length() == 0){
-                        oldB = 0;
-                    }else{
-                        oldB = Integer.parseInt(b.getText());
-                    }
+                    oldB = b.getNumber();
                     farbanzeige.setColor(new Color(oldR, oldG, oldB));
                     rs.s.setzeFarbe(new Color(oldR, oldG, oldB));
                     updateExample();
@@ -153,14 +156,13 @@ public class Surface
             }
         });
         
-        sThickness.addTextListener(new TextListener(){
-            public void textValueChanged(TextEvent e){
+        sThickness.addKeyListener(new KeyListener(){
+            public void keyPressed(KeyEvent k){}
+            public void keyReleased(KeyEvent k){}
+            
+            public void keyTyped(KeyEvent k){
                 if(validTextNormal1(sThickness.getText())){
-                    if(sThickness.getText().length() == 0){
-                        thick = 1;
-                    }else{
-                        thick = Integer.parseInt(sThickness.getText());
-                    }
+                    thick = sThickness.getNumber();
                     rs.s.setzeLinienBreite(thick);
                     updateExample();
                 }else{
@@ -565,20 +567,26 @@ public class Surface
           
           f.setLayout(null);
           
-          pathField.setBounds(30, 180, 300, 20);
+          pathField.setCornerRadius(1);
+          pathField.setPositionType(IFTextField.P_LEFT);
+          pathField.setFont(small);
+          pathField.setBorder(1);
           f.add(pathField);
           
-          nameField.setBounds(335, 180, 100, 20);
+          nameField.setCornerRadius(1);
+          nameField.setPositionType(IFTextField.P_LEFT);
+          nameField.setFont(small);
+          nameField.setBorder(1);
           f.add(nameField);
           
-          r.setBounds(30,340,30,30);
+          r.setCornerRadius(1);
           f.add(r);
-          g.setBounds(65,340,30,30);
+          g.setCornerRadius(1);
           f.add(g);
-          b.setBounds(100,340,30,30);
+          b.setCornerRadius(1);
           f.add(b);
           
-          sThickness.setBounds(30,375,30,30);
+          sThickness.setCornerRadius(1);
           f.add(sThickness);
           
           waText.setFont(subHeading);
