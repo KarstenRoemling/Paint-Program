@@ -60,11 +60,13 @@ public class IFTextField extends IFComponent{
                             repaint();
                         }
                     }else if((int)k.getKeyChar() == 22){
-                        try{
-                            String data = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-                            text += data;
-                            repaint();
-                        }catch(Exception e){}
+                        if(type == 0){
+                            try{
+                                String data = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+                                text += data;
+                                repaint();
+                            }catch(Exception e){}
+                        }
                     }else{
                         switch(typef){
                             case 0:
@@ -174,7 +176,7 @@ public class IFTextField extends IFComponent{
     }
     
     public int getNumber(){
-        if(type == 1){
+        if(type == 1 && text.length() > 0){
             return Integer.parseInt(text);
         }else{
             return 0;

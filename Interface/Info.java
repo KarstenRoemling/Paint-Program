@@ -2,6 +2,8 @@ import java.awt.event.*;
 import java.util.*;
 import java.awt.*; 
 import basis.*;
+import javax.imageio.*;
+import java.io.*;
     
 public class Info extends IFDialog
 {
@@ -10,6 +12,17 @@ public class Info extends IFDialog
     public Info(String text, boolean warning)
     {
           super(text, warning, 250, 500);
+          
+          try {
+            File path;
+            if(warning){
+                path = new File("warning.png");
+            }else{
+                path = new File("info.png");
+            }
+            java.awt.Image icon = ImageIO.read(path);
+            f.setIconImage(icon);
+          } catch (Exception e) {}
           
           ok = new IFButton(100,40,200,125,"Ok");
           ok.setFont(new Font("Dosis", Font.BOLD, 18));

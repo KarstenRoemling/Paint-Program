@@ -5,12 +5,15 @@ import java.util.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.lang.*;
+import javax.imageio.*;
+import java.io.*;
 
 
 public class Result implements MausLauscherStandard, MausLauscherErweitert, TastenLauscher
 {
     public Fenster f;
     public IgelStift s;
+    public IgelStift demo;
     public Bild b1;
     
     private int mouseXStart = 0;
@@ -21,16 +24,18 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     private boolean neu;
     
     public ArrayList<Picture> history;
-    public ArrayList<BufferedImage> history2;
     
     public boolean rightClick;
+    public int textX;
+    public int textY;
+    public boolean newText;
     
 
     public Result(){
         f = new Fenster();
         s = new IgelStift();
+        demo = new IgelStift();
         history = new ArrayList<Picture>();
-        history2 = new ArrayList<BufferedImage>();
         int w = (int)(Manager.w / 2)-20;
         int h = (int)(Manager.h * 0.915);
         f.setzeGroesse(w+25, h);
@@ -40,16 +45,24 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         b1.setzeHintergrundFarbe(Farbe.WEISS);
         f.setzeHintergrundFarbe(Farbe.HELLGRAU);
         s.maleAuf(b1);
+        demo.maleAuf(b1);
+        demo.setzeBild("empty.png");
         b1.setzeMitMausVerschiebbar(false);
         
         f.setzeMausLauscherStandard(this);
         f.setzeMausLauscherErweitert(this);
         f.setzeTastenLauscher(this);
         
+        try {
+            File path = new File("logo.png");
+            java.awt.Image icon = ImageIO.read(path);
+            f.getMeinJFrame().setIconImage(icon);
+        } catch (Exception e) {}
+        
         backup();
     }
     
-    private void backup(){
+    public void backup(){
         if(Manager.swap != history.size()-1){
             for (int i = history.size()-1; i > Manager.swap; i--) {
                history.remove(i);
@@ -107,6 +120,11 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
     public void setPos(int x, int y){
         s.hoch();
         s.bewegeBis(x, y);
+    }
+    
+    public void setDemoPos(int x, int y){
+        demo.hoch();
+        demo.bewegeBis(x,y);
     }
     
     public void drawPoint(int x, int y, boolean r){
@@ -178,7 +196,8 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
         y = getRealY(b1, y);
         setPos(x, y);
         switch(Manager.mode){
-            case 1:
+            case 2:
+                s.setzeBild("newText.png");
                 break;
         }
     }
@@ -209,6 +228,8 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 4:
                 case 3:
                 case 1:
+                    setDemoPos(x,y);
+                    demo.setzeBild("start.png");
                     s.setzeBild("kreuzDragging.png");
                     mouseXStart = x;
                     mouseYStart = y;
@@ -258,11 +279,13 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 4:
                     s.setzeBild("kreuz.png");
                     drawRectangle(mouseXStart, mouseYStart, x, y);
+                    demo.setzeBild("empty.png");
                     backup();
                     break;
                 case 1:
                     s.setzeBild("kreuz.png");
                     drawLine(mouseXStart, mouseYStart, x, y, Manager.sf.rounded);
+                    demo.setzeBild("empty.png");
                     backup();
                     break;
                 case 6:
@@ -275,6 +298,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                     drawCircle(mouseXStart,mouseYStart,rad);
                     s.hoch();
                     s.bewegeBis(x, y);
+                    demo.setzeBild("empty.png");
                     backup();
                     break;
                 case 0:
@@ -320,6 +344,35 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                 case 8:
                     s.fuelleMitFarbeAn((double)x, (double)y,new Color (Manager.sf.oldR, Manager.sf.oldG, Manager.sf.oldB));
                     backup();
+                    break;
+                case 2:
+                    setDemoPos(x,y);
+                    demo.setzeBild("textStart.png");
+                    textX = x;
+                    textY = y;
+                    newText = true;
+                    IFTextField text = (IFTextField)Manager.sf.infos.get(1);
+                    text.setText("");
+                    break;
+                case 9:
+                    if(Manager.sf.horizontalMirror){
+                        Picture p = b1.getPicture();
+                        p.flip(false);
+                        b1.setBild(p);
+                    }
+                    if(Manager.sf.verticalMirror){
+                        Picture p = b1.getPicture();
+                        p.flip(true);
+                        b1.setBild(p);
+                    }
+                    backup();
+                    break;
+                case 10:
+                    Color c = b1.farbeVon(x,y);
+                    Manager.sf.oldR = c.getRed();
+                    Manager.sf.oldG = c.getGreen();
+                    Manager.sf.oldB = c.getBlue();
+                    Manager.sf.updateColor();
                     break;
             }
         }
