@@ -2,6 +2,8 @@ import java.awt.event.*;
 import java.util.*;
 import java.awt.*; 
 import basis.*;
+import javax.imageio.*;
+import java.io.*;
     
 public class IFDialog
 {
@@ -25,6 +27,12 @@ public class IFDialog
           f.setSize(width, height);
           f.setVisible(true);
           f.setLocation((Manager.w - width)/2,250);
+          
+          try {
+            File path = new File("dialog.png");
+            java.awt.Image icon = ImageIO.read(path);
+            f.setIconImage(icon);
+          } catch (Exception e) {}
 
           if(warning){
               label.setForegroundColor(new Color(255,0,0));

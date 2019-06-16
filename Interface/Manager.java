@@ -41,6 +41,7 @@ public class Manager
                 result.s.setzeBild("fill.png");
                 break;
         }
+        result.demo.setzeBild("empty.png");
         Manager.sf.refresh();
         result.defaults();
     }
