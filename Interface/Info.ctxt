@@ -1,7 +1,9 @@
 #BlueJ class context
 comment0.target=Info
+comment0.text=\r\n\ Die\ Klasse\ Info\ erbt\ von\ IFDialog\ und\ ist\ eine\ Warn-\ bzw.\ Infomeldung,\ ein\ vordefinierter\r\n\ IFDialog\ mit\ einem\ einzigen\ Button,\ der\ OK\ anzeigt.\r\n\ \r\n\ @Jonathan\ H\u00F6lzer\ &\ Karsten\ R\u00F6mling\r\n\ @18.06.2019\r\n
 comment1.params=text\ warning
 comment1.target=Info(java.lang.String,\ boolean)
+comment1.text=\r\n\ Konstruktormethode\ und\ einzige\ Methode\ der\ Klasse\ Info.\ Erstellt\ einen\ IFButton\ und\ nutzt\ die\ vererbten\ Methoden,\ um\ eine\ Warn-\ oder\ Infomeldung\ zu\ erstellen.\r\n\ \r\n\ @param\ text\ \ \ \ \ Die\ Nachricht\ in\ der\ Warn-\ oder\ Infomeldung\r\n\ @param\ warning\ \ \ \ \ Gibt\ an,\ ob\ es\ sich\ um\ eine\ Warnmeldung\ handelt\ und\ die\ Schriftart\ deswegen\ rot\ sein\ muss.\r\n
 comment2.params=e
 comment2.target=void\ mouseClicked(java.awt.event.MouseEvent)
 comment3.params=e

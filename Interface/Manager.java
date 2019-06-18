@@ -2,6 +2,15 @@ import java.awt.*;
 import java.util.*;
 import basis.*;
 
+/**
+ * Die Manager-Klasse Kontrolliert und instanziiert andere Klassen wie Surface und Result.
+ * In ihrer Methode public static void main(String[] args) wird das Programm gestarten
+ * Außerdem werden hier statische Variablen und Methoden gespeichert, damit man von allen anderen Klassen darauf zugreifen kann.
+ * 
+ * @Jonathan Hölzer & Karsten Römling
+ * @18.06.2019
+ */
+
 public class Manager
 {
     public static Result result;
@@ -11,15 +20,21 @@ public class Manager
     public static int mode = 0;
     public static int swap = 0;
     public static boolean swapping = false;
-
+    
+    /**
+     * Diese Methode startet das Programm. Es werden die Höhe und die Breite des Bildschirms erfasst, die beiden großen Fenster und hauptsächlichen Klassen Surface und Result instanziiert und Standardwerte gesetzt.
+     */
     public static void main(String[] args){
         w = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
         h = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
         result = new Result();
         sf = new Surface(result);
-        Manager.refresh();
+        refresh();
     }
     
+    /**
+     * Wird aufgerufen, wenn das Werkzeug mit dem "<"- bzw. ">"-Button geändert wird. Aktualisiert das Bild der IgelStift-Objekte, setzt Standardwerte.
+     */
     public static void refresh(){
         result.rightClick = false;
         result.b1.setzeMitMausVerschiebbar(false);
@@ -40,9 +55,12 @@ public class Manager
             case 8:
                 result.s.setzeBild("fill.png");
                 break;
+            case 9:
+                result.s.setzeBild("getColor.png");
+                break;
         }
         result.demo.setzeBild("empty.png");
-        Manager.sf.refresh();
+        sf.refresh();
         result.defaults();
     }
 }
