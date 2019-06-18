@@ -1,7 +1,9 @@
 #BlueJ class context
 comment0.target=WindowManager
+comment0.text=\r\n\ Der\ WindowManager\ erbt\ von\ WindowAdapter\ und\ \u00FCberschreibt\ dabei\ die\ public\ void\ windowClosing(WindowEvent\ e)\r\n\ Jedes\ Fenster\ im\ Programm\ enth\u00E4lt\ ein\ Objekt\ des\ WindowManager,\ um\ zu\ kontrollieren,\ was\ passiert,\r\n\ wenn\ man\ auf\ das\ X\ am\ oberen\ rechten\ Rand\ des\ Fensters\ klickt,\ um\ das\ Fenster\ zu\ schlie\u00DFen.\r\n\ Je\ nach\ den\ Parametern\ in\ der\ Konstruktormethode\ wird\ zudem\ ein\ Dialog\ angezeigt,\ ob\ man\ das\ Programm\ wirklich\ schlie\u00DFen\ m\u00F6chte\r\n\ bzw.\ das\ Programm\ wird\ ganz\ geschlossen\ oder\ nur\ das\ Fenster.\r\n\ \r\n\ @Jonathan\ H\u00F6lzer\ &\ Karsten\ R\u00F6mling\r\n\ @18.06.2019\r\n
 comment1.params=eS\ dialog
 comment1.target=WindowManager(boolean,\ boolean)
+comment1.text=\r\n\ Konstruktormethode\ der\ Klasse\ WindowManager.\ Erstellt\ einen\ WindowManager\ und\ initialisiert\ die\ Attribute\ exitSystem\ und\ withDialog\ mit\ den\ Parametern\ eS\ und\ dialog.\r\n\ \r\n\ @param\ eS\ \ \ \ \ Gibt\ an,\ ob\ das\ ganze\ Programm\ beendet\ werden\ soll,\ wenn\ sich\ das\ Fenster\ schlie\u00DFt.\r\n\ @param\ dialog\ \ \ \ \ Gibt\ an,\ ob\ erst\ ein\ Dialog\ ge\u00F6ffnet\ werden\ soll,\ mit\ dem\ der\ Nutzer\ entscheiden\ kann\ ob\ er\ wirklich\ beenden\ oder\ das\ Fenster\ schlie\u00DFen\ m\u00F6chte.\r\n
 comment10.params=e
 comment10.target=void\ mouseExited(java.awt.event.MouseEvent)
 comment11.params=e
@@ -12,8 +14,10 @@ comment13.params=e
 comment13.target=void\ mouseReleased(java.awt.event.MouseEvent)
 comment2.params=e
 comment2.target=void\ windowClosing(java.awt.event.WindowEvent)
+comment2.text=\r\n\ \u00DCberschreibt\ die\ Methode\ der\ Klasse\ WindowsAdapter,\ von\ der\ WindowManager\ erbt.\ Wird\ ausgel\u00F6st,\ wenn\ man\ das\ Fenster\ mit\ dem\ "X"\ am\ rechten\ oberen\ Fensterrand\ schlie\u00DFen\ m\u00F6chte.\r\n\ Wenn\ das\ Attribut\ withDialog\ true\ ist,\ wird\ das\ Fenster\ nur\ geschlossen,\ wenn\ das\ in\ einem\ Dialog\ vom\ Nutzer\ explizit\ gew\u00FCnscht\ ist.\r\n\ Das\ Fenster\ schlie\u00DFt\ sich\ ansonsten\ direkt.\ Wenn\ auch\ das\ Attribut\ exitSystem\ true\ ist,\ wird\ das\ gesamte\ Programm\ geschlossen.\r\n\ \r\n\ @param\ e\ \ \ \ \ Das\ WindowEvent-Objekt,\ das\ Informationen\ dar\u00FCber\ liefert,\ wie\ das\ Window\ geschlossen\ wurde\ etc.\ Beispielsweise\ enth\u00E4lt\ es\ die\ Methode\ getWindow(),\ mit\ der\ man\ das\ Window\ bokommen\ kann\ und\ so\ auch\ mit\ der\ Methode\ dispose()\ schlie\u00DFen\ kann.\r\n
 comment3.params=e
 comment3.target=void\ windowClosingWithDialog(java.awt.event.WindowEvent)
+comment3.text=\r\n\ Wird\ nur\ von\ public\ void\ windowClosing(WindowEvent\ e)\ ausgel\u00F6st.\r\n\ \u00D6ffnet\ erst\ einmal\ einen\ Dialog\ mit\ den\ zuvor\ erstellten\ Buttons\ und\ einem\ IFDialog-Objekt,\ bevor,\ falls\ "Beenden"\ gew\u00E4hlt\ wird,\ das\ Fenster\ geschlossen\ und\ ggf.\ das\ Programm\ beendet\ wird.\r\n\ \r\n\ @param\ e\ \ \ \ \ Das\ WindowEvent-Objekt,\ das\ Informationen\ dar\u00FCber\ liefert,\ wie\ das\ Window\ geschlossen\ wurde\ etc.\ Beispielsweise\ enth\u00E4lt\ es\ die\ Methode\ getWindow(),\ mit\ der\ man\ das\ Window\ bokommen\ kann\ und\ so\ auch\ mit\ der\ Methode\ dispose()\ schlie\u00DFen\ kann.\r\n
 comment4.params=e
 comment4.target=void\ mouseClicked(java.awt.event.MouseEvent)
 comment5.params=e

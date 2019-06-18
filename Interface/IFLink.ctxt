@@ -1,7 +1,9 @@
 #BlueJ class context
 comment0.target=IFLink
+comment0.text=\r\n\ Die\ Klasse\ IFLink\ erbt\ von\ IFLabel\ und\ ist\ damit\ Teil\ der\ von\ uns\ erstellten\ Designelementen\ f\u00FCr\ die\ Benutzeroberfl\u00E4che.\r\n\ Neben\ einem\ Text\ verf\u00FCgt\ diese\ Klasse\ vor\ allem\ auch\ \u00FCber\ eine\ URL\ als\ Parameter\ der\ Konstruktormethode,\ die\ im\ vom\ Nutzer\ festgelegten\ Standard-Browser\ ge\u00F6ffnet\ wird,\ wenn\ man\ auf\ den\ Link\ klickt.\r\n\ Wie\ die\ Links\ in\ HTML\ verf\u00FCgt\ auch\ dieser\ Link\ \u00FCber\ unterschiedliche\ Farben,\ wenn\ man\ ihn\ anklickt,\ die\ Maus\ \u00FCber\ ihm\ dr\u00FCber\ bewegt\ oder\ gar\ nichts\ mit\ ihm\ macht.\r\n\ Die\ Default-Farbwerte\ sind\ ebenfalls\ dem\ standardm\u00E4\u00DFigem\ HTML-Stil\ angepasst.\r\n\ \r\n\ @Jonathan\ H\u00F6lzer\ &\ Karsten\ R\u00F6mling\r\n\ @18.06.2019\r\n
 comment1.params=width\ height\ x\ y\ text\ url
 comment1.target=IFLink(int,\ int,\ int,\ int,\ java.lang.String,\ java.lang.String)
+comment1.text=\r\n\ Konstruktormethode\ der\ Klasse\ IFLink\:\ Initialisiert\ Attribute,\ setzt\ Cursor,\ ruft\ die\ Konstruktormethode\ der\ Parent\ Class\ auf,\ f\u00FCgt\ MouseListener\ hinzu...\r\n\ \r\n\ @param\ width\ \ \ \ \ Breite\r\n\ @param\ height\ \ \ \ \ H\u00F6he\r\n\ @param\ x\ \ \ \ \ x-Position\ im\ Frame\r\n\ @param\ y\ \ \ \ \ y-Position\ im\ Frame\r\n\ @param\ txt\ \ \ \ \ Text\ des\ Links\r\n\ @param\ url\ \ \ \ \ URL,\ die\ mit\ Klick\ auf\ dem\ Link\ ge\u00F6ffnet\ werden\ soll.\r\n
 comment2.params=e
 comment2.target=void\ mouseClicked(java.awt.event.MouseEvent)
 comment3.params=e
@@ -14,8 +16,11 @@ comment6.params=e
 comment6.target=void\ mouseReleased(java.awt.event.MouseEvent)
 comment7.params=c
 comment7.target=void\ setHoverColor(java.awt.Color)
+comment7.text=\r\n\ Setzt\ die\ Farbe,\ die\ der\ Link\ annimmt,\ wenn\ man\ mit\ der\ Maus\ \u00FCber\ ihn\ f\u00E4hrt.\r\n\ \r\n\ @param\ c\ \ \ \ \ Das\ Farbobjekt,\ das\ die\ Farbe\ definiert,\ die\ der\ Link\ annimmt,\ wenn\ man\ mit\ der\ Maus\ \u00FCber\ ihn\ f\u00E4hrt.\r\n
 comment8.params=c
 comment8.target=void\ setActiveColor(java.awt.Color)
+comment8.text=\r\n\ Setzt\ die\ Farbe,\ die\ der\ Link\ annimmt,\ wenn\ man\ ihn\ mit\ der\ Maus\ anklickt.\r\n\ \r\n\ @param\ c\ \ \ \ \ Das\ Farbobjekt,\ das\ die\ Farbe\ definiert,\ die\ der\ Link\ annimmt,\ wenn\ man\ ihn\ mit\ der\ Maus\ anklickt.\r\n
 comment9.params=c
 comment9.target=void\ setStandardColor(java.awt.Color)
+comment9.text=\r\n\ Setzt\ die\ Farbe,\ die\ der\ Link\ annimmt,\ wenn\ man\ weder\ ihn\ mit\ der\ Maus\ anklickt\ noch\ mit\ der\ Maus\ \u00FCber\ ihn\ f\u00E4hrt.\r\n\ \r\n\ @param\ c\ \ \ \ \ Das\ Farbobjekt,\ das\ die\ Farbe\ definiert,\ die\ der\ Link\ annimmt,\ wenn\ man\ weder\ ihn\ mit\ der\ Maus\ anklickt\ noch\ mit\ der\ Maus\ \u00FCber\ ihn\ f\u00E4hrt.\r\n
 numComments=10

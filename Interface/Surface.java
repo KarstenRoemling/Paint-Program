@@ -6,17 +6,27 @@ import java.util.*;
 import java.io.*;
 import basis.swing.*;
 
+/**
+ * Die Klasse Surface kontrolliert hauptsächlich die Benutzeroberfläche und hält das Einstellungsfenster.
+ * Hier werden Buttons, Texte, TextFields etc. erstellt, ihnen Eigenschaften zugeteilt und MouseListener etc. hinzugefügt.
+ * Auch wichtige Funktionen des Programms wie das Abspeichern von Bildern finden hier statt.
+ * 
+ * @Jonathan Hölzer & Karsten Römling
+ * @18.06.2019
+ */
+
 public class Surface
 {
     private Frame f;
     private IgelStift stift;
     private Result rs;
     
-    private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "Vieleck", "Linienkreis", "Radierer","Fläche füllen","Spiegeln","Farbe kriegen"};
+    private String[] modeNames = {"Pinsel", "Linie", "Text", "Kreis", "Rechteck", "Vieleck", "Linienkreis", "Radierer","Fläche füllen","Farbe kriegen"};
     private String savePath = "..\\Images\\bild.png";
     private String pathD = "..\\Images\\";
     private String pathN = "name";
     
+    //Buttons
     private IFButton decrease;
     private IFButton increase;
     private IFButton save;
@@ -28,19 +38,23 @@ public class Surface
     private IFButton bgClrSetter;
     private IFButton confirmBG;
     
+    //Labels
     private IFLabel modeName;
     private IFLabel waText;
     private IFLabel stText;
     private IFLabel dtText;
     
+    //Links
     private IFLink wikiLink;
     
     private RoundedOrNot ex;
     
+    //Checkboxes
     private IFCheckbox cRound;
     
     public IFLabel debugInfo;
     
+    //TextFields
     private IFTextField pathField;
     private IFTextField nameField;
     private IFTextField r;
@@ -50,30 +64,39 @@ public class Surface
     private IFTextField BGX;
     private IFTextField BGY;
     
+    //Farbwerte
     public int oldR = 0;
     public int oldG = 0;
     public int oldB = 0;
     
+    //Einstellungen
     public int thick = 10;
     public Color bgColor;
     public boolean rounded = true;
     public boolean eraseWhite = false;
-    public boolean verticalMirror = false;
-    public boolean horizontalMirror = true;
     
+    //Standard-Fonts
     public Font subHeading = new Font("Dosis", Font.BOLD, 24);
     public Font heading = new Font("Dosis", Font.BOLD, 35);
     public Font normal = new Font("Dosis", Font.PLAIN, 18);
     public Font small = new Font("Dosis", Font.PLAIN, 12);
     
+    //Liste der Elemente, die wieder entfernt werden, wenn ein neues Werkzeug gewählt wird.
     public ArrayList<IFComponent> infos;
     
+    
+    /**
+     * Konstruktormethode der Klasse Surface: Hier werden KeyListener, MouseListener etc. zugeteilt, Attribute initialisiert, die Benutzeroberfläche wird geladen.
+     * 
+     * @param result     Das Result-Objekt, über das das Bild gestaltet wird.
+     */
     public Surface(Result result)
     {
         rs = result;
         
         f = new Frame("Werkzeuge und Einstellungen");
         
+        //Buttons
         clear = new IFButton(80,30,205,500,"Leeren");
         undo = new IFButton(50,30,290,500,"UNDO");
         redo = new IFButton(50,30,345,500,"REDO");
@@ -85,16 +108,19 @@ public class Surface
         bgClrSetter = new IFButton(160,30,170,340, "Als Hintergrundfarbe");
         confirmBG = new IFButton(135,30,140,205, "Bildgröße setzen");
         
+        //Labels
         modeName = new IFLabel(100,30,65,500,modeNames[Manager.mode]);
         dtText = new IFLabel(350,30,30,135, "Datei (Dateipfad, Bildgröße)");
         waText = new IFLabel(300,30,30,455,"Werkzeugauswahl");
         stText = new IFLabel(300,30,30,295, "Stift (Farbe, Stiftdicke)");
         debugInfo = new IFLabel(100,30,650,180, "0; 0");
         
+        //Links
         wikiLink = new IFLink(100,15,30,90,"Bedienungsanleitung","https://github.com/KarstenRoemling/Paint-Program/wiki");
         
-        cRound = new IFCheckbox(130,30,100,375,rounded, "Abgerundet");
+        cRound = new IFCheckbox(160,30,100,375,rounded, "Abgerundet");
         
+        //TextFields
         pathField = new IFTextField(300,20,30,180,IFTextField.T_TEXT);
         pathField.setText(pathD);
         nameField = new IFTextField(100,20,335,180,IFTextField.T_TEXT);
@@ -116,6 +142,7 @@ public class Surface
         
         infos = new ArrayList<IFComponent>();
         
+        //KeyListerners
         r.addKeyListener(new KeyListener(){
             public void keyPressed(KeyEvent k){}
             public void keyReleased(KeyEvent k){}
@@ -173,6 +200,7 @@ public class Surface
             }
         });
         
+        //MouseListeners
         clear.addMouseListener(new MouseListener()
         {
             public void mouseClicked(MouseEvent e){
@@ -437,15 +465,19 @@ public class Surface
         decrease.addMouseListener(dML);
         increase.addMouseListener(iML);
         
+        
+        //Icon des Fensters wird gesetzt
         try {
             File path = new File("logo.png");
             java.awt.Image icon = ImageIO.read(path);
             f.setIconImage(icon);
         } catch (Exception e) {}
         
+        //WindowsListener (true,true) -> das gesamte Programm wird geschlossen und ein Dialog wird davor angezeigt.
         f.addWindowListener(new WindowManager(true, true));
         launchFrame();
         
+        //Standartwerte für Dateipfad und -name werden errechnet, indem nach nicht bereits belegten Dateinamen gesucht wird.
         String name = "bild";
         int count = 1;
         while(new File("..\\Images\\"+name+".png").exists()){
@@ -460,13 +492,22 @@ public class Surface
         nameField.setText(pathN);
     }
     
+    /**
+     * Nachdem die Farbe geändert wurde, sorgt diese Methode dafür, dass das RoundedOrNot-Objekt, das den Stift repräsentiert, die Eingabefelder für die Farbe und ggf. der gezeichnete Text mit dem Werkzeug "Text" auf die aktuelle 
+     * Farbe aktualisiert werden.
+     */
     public void updateColor(){
+        //Setzt die Eingabefelder auf die aktuelle Farbe.
         r.setText(String.valueOf(oldR));
         g.setText(String.valueOf(oldG));
         b.setText(String.valueOf(oldB));
+        
+        //Setzt die Anzeigen für die Farbe und den IgelStift selbst auf die aktuelle Farbe.
         farbanzeige.setColor(new Color(oldR, oldG, oldB));
         rs.s.setzeFarbe(new Color(oldR, oldG, oldB));
         updateExample();
+        
+        //Zeichnet den Text mit der neuen Farbe neu.
         if(Manager.mode == 2){
             if(!rs.newText){
                 Manager.swap--;
@@ -481,6 +522,12 @@ public class Surface
         }
     }
     
+    /**
+     * Fragt den Nutzer, ob das Bild wirklich gespeichert werden soll, wenn an dem angegebenen Pfad bereits ein Bild gespeichert ist. Speichert ansonsten das Bild unter dem angegebenen Pfad und informiert den Nutzer, ob 
+     * das Speichern erfolgreich geklappt hat.
+     * 
+     * @param accepted    Der boolean gibt an, ob der Nutzer bereits zugestimmt hat, das Bild zu speichern. Wenn dies der Fall ist, wird nicht erneut über einen Dialog gefragt, ob das Bild wirklich gespeichert werden soll.
+     */
     public void savingProcedure(boolean accepted){
         if(new File(getPath(false)).exists() && !accepted){
             IFButton cancel = new IFButton(100,40,0,0,"Abbrechen");
@@ -534,18 +581,23 @@ public class Surface
                 }
             });
             
+            //Erstellt mit den kreierten Buttons einen Dialog.
             IFDialog d = new IFDialog("Unter dem angegebenen Pfad ist bereits ein Bild.\nWenn du fortfährst, wird das Bild überschrieben",false,250,500);
             d.setButtons(new IFButton[]{accept,cancel});
         }else{
+            //Speichert das Bild und git über den Erfolg Auskunft.
             boolean success = rs.b1.speichereBildUnter(getPath(false));
             if(success){
                 new Info("Das Bild wurde erfolgreich gespeichert.", false);
             }else{
-                new Info("Das Bild konnte nich gespeichert werden. Ein Fehler ist aufgetreten.", true);
+                new Info("Das Bild konnte nicht gespeichert werden. Ein Fehler ist aufgetreten.", true);
             }
         }
     }
     
+    /**
+     * Diese Methode entfernt das RoundedOrNot-Objekt ex, das den Stift in seiner Größe, Farbe und Form repräsentieren soll, vom Frame und fügt es als neues Objekt mit aktualisierten Eigenschaften wieder hinzu.
+     */
     public void updateExample(){
         if(ex != null){
             f.remove(ex);
@@ -554,6 +606,13 @@ public class Surface
         f.add(ex);
     }
     
+    /**
+     * Diese Methode kontrolliert, ob der eingegebene Text als Farbwert korrekt ist.
+     * 
+     * @param str     Der Text, der auf seine Korrektheit kontrolliert werden soll.
+     * 
+     * @return     Das boolean, das angibt, ob der Text als Farbwert korrekt ist.
+     */
     public boolean validText(String str){
         boolean valid = true;
         try{
@@ -570,6 +629,13 @@ public class Surface
         return valid;
     }
     
+    /**
+     * Diese Methode kontrolliert, ob der eingegebene Text als Wert für die Stiftdicke korrekt ist.
+     * 
+     * @param str     Der Text, der auf seine Korrektheit kontrolliert werden soll.
+     * 
+     * @return     Das boolean, das angibt, ob der Text als Wert für die Stiftdicke korrekt ist.
+     */
     public boolean validTextNormal1(String str){
         boolean valid = true;
         try{
@@ -586,6 +652,13 @@ public class Surface
         return valid;
     }
     
+    /**
+     * Diese Methode gibt den Pfad einschließlich dem Dateinamen und der Dateiendung durch die Eingabefelder wieder. Wenn ein Backslash zwischen Dateipfad und Dateiname fehlt, wird er hinzugefügt.
+     * 
+     * @param big     Das boolean, das angibt, ob der die Dateiendung in Groß- oder Kleinbuchstaben angegeben werden soll.
+     * 
+     * @return     Gibt den gesamten Dateipfad als String aus.
+     */
     public String getPath(boolean big){
         String pathTo = pathField.getText();
         if(pathTo.charAt(pathTo.length() - 1) != '\\'){
@@ -598,6 +671,11 @@ public class Surface
         return pathTo+nameField.getText()+ending;
     }
     
+    /**
+     * Diese Methode lädt das Bild aus dem angegebenen Dateipfad. Wenn es dabei einen Fehler gibt, erscheint eine Fehlermeldung.
+     * 
+     * @param big     Das boolean, das angibt, ob der die Dateiendung in Groß- oder Kleinbuchstaben verwendet werden soll.
+     */
     public void loadImage(boolean big){
         try{
             rs.b1.ladeBild(getPath(big));
@@ -607,6 +685,9 @@ public class Surface
         }
     }
     
+    /**
+     * Lädt das aktuelle Bild aus dem Verlauf und setzt es als Bild.
+     */
     public void setFromHistory(){
         if(Manager.swap < rs.history.size() && Manager.swap >= 0){
             rs.b1.loescheAlles();
@@ -615,6 +696,9 @@ public class Surface
         debugInfo.setText(String.valueOf(Manager.swap)+"; "+String.valueOf(rs.history.size()));
     }
     
+    /**
+     * Erstellt alle Elemente der Benutzeroberfläche, lädt ihre Eigenschaften und fügt sie zum Frame hinzu. Setzt die Höhe und Breite des Frames und macht es sichtbar.
+     */
     public void launchFrame() {
           int w = (int)(Manager.w / 2)-20;
           int h = (int)(Manager.h * 0.96);
@@ -727,6 +811,10 @@ public class Surface
           f.setVisible(true);
     }
     
+    /**
+     * Wird durch Manager.refresh() ausgelöst, wenn der Nutzer das Werkzeug wechselt. Zeichnet mit den dafür erstellten Methoden "public void createInfoBox(int y, String txt, Color bgColor)", "public void createWET(int y)" und
+     * "public void createWE(IFComponent we)" InfoBoxes und Werkzeugeinstellungen. Die davor auf dem Frame befindlichen, zu einem bestimmten Werkzeug gehörenden Komponenten werden von Frame entfernt.
+     */
     public void refresh(){
         for(int i = 0; i < infos.size(); i++){
             f.remove(infos.get(i));
@@ -740,10 +828,13 @@ public class Surface
                 createInfoBox(535, "Linien zeichnen: Suche dir einen Punkt aus, klicke und ziehe zu einem anderen Punkt und lasse los.\nZwischen Startpunkt und Endpunkt entsteht nun eine Linie.", new Color(140,140,255));
                 break;
             case 2:
+                createInfoBox(535, "Text erzeugen: Klicke auf einen Startpunkt im Bild und bearbeite Text,\nSchriftart und Schriftgröße in den Werkzeugeinstellungen.", new Color(140,140,255));
+                
+                //Werkzeugeinstellungen für den Text: erstellt drei IFTextFields. Wenn sich ihr Text verändert, wird der text mit den neuen Eigenschaften neu gezeichnet.
                 rs.s.setzeSchriftArt("Dosis");
                 rs.s.setzeSchriftGroesse(20);
-                createWET(555);
-                IFTextField text = new IFTextField(500,30,30,600,IFTextField.T_TEXT);
+                createWET(615);
+                IFTextField text = new IFTextField(500,30,30,660,IFTextField.T_TEXT);
                 text.setCornerRadius(1);
                 text.setPositionType(IFTextField.P_LEFT);
                 text.addKeyListener(new KeyListener(){
@@ -751,6 +842,7 @@ public class Surface
                     public void keyReleased(KeyEvent k){}
                     
                     public void keyTyped(KeyEvent k){
+                        //Mit UNDO wird das Bild auf das vorherige Bild zurückgesetzt...
                         if(!rs.newText){
                             Manager.swap--;
                             setFromHistory();
@@ -758,13 +850,17 @@ public class Surface
                             rs.newText = false;
                         }
                         rs.setPos(rs.textX, rs.textY);
+                        
+                        //...neu gezeichnet...
                         rs.s.schreibeText(text.getText());
                         rs.s.setzeBild("textEditing.png");
+                        
+                        //...und neu zum Verlauf hinzugefügt.
                         rs.backup();
                     }
                 });
                 createWE(text);
-                IFTextField textFont = new IFTextField(100,30,30,635,IFTextField.T_TEXT);
+                IFTextField textFont = new IFTextField(100,30,30,695,IFTextField.T_TEXT);
                 textFont.setCornerRadius(1);
                 textFont.setPositionType(IFTextField.P_LEFT);
                 textFont.setText("Dosis");
@@ -787,7 +883,7 @@ public class Surface
                     }
                 });
                 createWE(textFont);
-                IFTextField textSize = new IFTextField(40,30,135,635,IFTextField.T_NUMBER);
+                IFTextField textSize = new IFTextField(40,30,135,695,IFTextField.T_NUMBER);
                 textSize.setCornerRadius(1);
                 textSize.setPositionType(IFTextField.P_LEFT);
                 textSize.setText("20");
@@ -829,6 +925,8 @@ public class Surface
                 break;
             case 7:
                 createInfoBox(535, "Radierer: Mit diesem Werkzeug kannst du Gezeichnetes löschen. Klicke und ziehe über\netwas Gezeichnetes und es nimmt die Farbe des Hintergrunds an.", new Color(140,140,255));
+                
+                //Werkzeugeinstellungen für den Radierer: Soll er mit weiß zeichnen?
                 createWET(615);
                 IFCheckbox cb = new IFCheckbox(300,30,30,660,eraseWhite,"Mit weiß radieren");
                 cb.setCornerRadius(1);
@@ -861,64 +959,18 @@ public class Surface
                 createInfoBox(535,"Fläche füllen: Klicke auf eine geschlossene Fläche und sie füllt sich mit der ausgewählten Farbe. ", new Color(140,140,255));
                 break;
             case 9:
-                //Hier muss eine InfoBox hin!
-                createWET(615);
-                IFCheckbox h = new IFCheckbox(300,30,30,695,horizontalMirror,"Horizontal");
-                h.setCornerRadius(1);
-                h.addMouseListener(new MouseListener()
-                {
-                    public void mouseClicked(MouseEvent e){
-                        h.handleClick();
-                        horizontalMirror = h.getChecked();
-                    }
-                    
-                    public void mouseExited(MouseEvent e){
-                        h.setColor(new Color(10,30,100));
-                    }
-                    
-                    public void mousePressed(MouseEvent e){
-                        h.animCR(3, 0.2);
-                    }
-                    
-                    public void mouseEntered(MouseEvent e){
-                        h.setColor(new Color(40,50,140));
-                    }
-                    
-                    public void mouseReleased(MouseEvent e){
-                        h.animCR(1, -0.2);
-                    }
-                });
-                createWE(h);
-                IFCheckbox v = new IFCheckbox(300,30,30,660,verticalMirror,"Vertikal");
-                v.setCornerRadius(1);
-                v.addMouseListener(new MouseListener()
-                {
-                    public void mouseClicked(MouseEvent e){
-                        v.handleClick();
-                        verticalMirror = v.getChecked();
-                    }
-                    
-                    public void mouseExited(MouseEvent e){
-                        v.setColor(new Color(10,30,100));
-                    }
-                    
-                    public void mousePressed(MouseEvent e){
-                        v.animCR(3, 0.2);
-                    }
-                    
-                    public void mouseEntered(MouseEvent e){
-                        v.setColor(new Color(40,50,140));
-                    }
-                    
-                    public void mouseReleased(MouseEvent e){
-                        v.animCR(1, -0.2);
-                    }
-                });
-                createWE(v);
+                createInfoBox(535, "Farbe kriegen: Klicke auf einen Punkt im Bild und die Farbe des Punkts wird als Stiftfarbe übernommen.", new Color(140,140,255));
                 break;
         }
     }
     
+    /**
+     * Erstellt eine InfoBox, fügt sie zum Frame hinzu und zur ArrayList<IFComponent>, damit sie wieder gelöscht werden kann, wenn ein neues Werkzeug ausgewählt wird. Die InfoBox besteht aus 2 IFLabels.
+     * 
+     * @param y     y-Position, auf der die InfoBox erstellt werden soll.
+     * @param txt     Der Text der InfoBox.
+     * @param bgColor     Die Hintergrundfarbe der InfoBox.
+     */
     public void createInfoBox(int y, String txt, Color bgColor){
         int w = (int)(Manager.w / 2)-110;
         
@@ -945,6 +997,11 @@ public class Surface
         f.add(infoText);
     }
     
+    /**
+     * Erstellt ein IFLabel als Titel für die Werkzeugeinstellungen mit der Aufschrift "Werkzeugeinstellungen" und fügt es zum Frame hinzu und zur ArrayList<IFComponent>, damit es wieder gelöscht werden kann, wenn ein neues Werkzeug ausgewählt wird.
+     * 
+     * @param y     y-Position, auf der der Titel erstellt werden soll.
+     */
     public void createWET(int y){
         IFLabel we = new IFLabel(300,30,30,y,"Werkzeugeinstellungen");
         we.setFont(subHeading);
@@ -953,11 +1010,21 @@ public class Surface
         infos.add(we);
     }
     
+    /**
+     * Erstellt ein Werkzeug, indem es zur ArrayList<IFComponent>, damit es wieder gelöscht werden kann, wenn ein neues Werkzeug ausgewählt wird, und zum Frame hinzugefügt wird.
+     * 
+     * @param we     Das Werkzeug, das hinzugefügt wird (ein IFComponent)
+     */
     public void createWE(IFComponent we){
         f.add(we);
         infos.add(we);
     }
     
+    /**
+     * Gibt aus den Werten für Rot, Grün und Blau, die in der Klasse Surface gespeichert sind, ein Color-Objekt zurück (Eigentlich eine sinnvolle Methode, ich glaube allerdings, dass ich sie nie verwendet habe).
+     * 
+     * @return     das Color-Objekt, das sich aus den Werten für Rot, Grün und Blau ergibt.
+     */
     public Color getFgColor(){
         return new Color(oldR, oldG, oldB);
     }

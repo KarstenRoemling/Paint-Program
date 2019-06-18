@@ -4,11 +4,25 @@ import java.awt.*;
 import basis.*;
 import javax.imageio.*;
 import java.io.*;
+
+/**
+ * Die Klasse Info erbt von IFDialog und ist eine Warn- bzw. Infomeldung, ein vordefinierter
+ * IFDialog mit einem einzigen Button, der OK anzeigt.
+ * 
+ * @Jonathan Hölzer & Karsten Römling
+ * @18.06.2019
+ */
     
 public class Info extends IFDialog
 {
     private IFButton ok;
     
+    /**
+     * Konstruktormethode und einzige Methode der Klasse Info. Erstellt einen IFButton und nutzt die vererbten Methoden, um eine Warn- oder Infomeldung zu erstellen.
+     * 
+     * @param text     Die Nachricht in der Warn- oder Infomeldung
+     * @param warning     Gibt an, ob es sich um eine Warnmeldung handelt und die Schriftart deswegen rot sein muss.
+     */
     public Info(String text, boolean warning)
     {
           super(text, warning, 250, 500);

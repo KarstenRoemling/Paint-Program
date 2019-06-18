@@ -1,7 +1,10 @@
 #BlueJ class context
 comment0.target=Manager
+comment0.text=\r\n\ Die\ Manager-Klasse\ Kontrolliert\ und\ instanziiert\ andere\ Klassen\ wie\ Surface\ und\ Result.\r\n\ In\ ihrer\ Methode\ public\ static\ void\ main(String[]\ args)\ wird\ das\ Programm\ gestarten\r\n\ Au\u00DFerdem\ werden\ hier\ statische\ Variablen\ und\ Methoden\ gespeichert,\ damit\ man\ von\ allen\ anderen\ Klassen\ darauf\ zugreifen\ kann.\r\n\ \r\n\ @Jonathan\ H\u00F6lzer\ &\ Karsten\ R\u00F6mling\r\n\ @18.06.2019\r\n
 comment1.params=args
 comment1.target=void\ main(java.lang.String[])
+comment1.text=\r\n\ Diese\ Methode\ startet\ das\ Programm.\ Es\ werden\ die\ H\u00F6he\ und\ die\ Breite\ des\ Bildschirms\ erfasst,\ die\ beiden\ gro\u00DFen\ Fenster\ und\ haupts\u00E4chlichen\ Klassen\ Surface\ und\ Result\ instanziiert\ und\ Standardwerte\ gesetzt.\r\n
 comment2.params=
 comment2.target=void\ refresh()
+comment2.text=\r\n\ Wird\ aufgerufen,\ wenn\ das\ Werkzeug\ mit\ dem\ "<"-\ bzw.\ ">"-Button\ ge\u00E4ndert\ wird.\ Aktualisiert\ das\ Bild\ der\ IgelStift-Objekte,\ setzt\ Standardwerte.\r\n
 numComments=3

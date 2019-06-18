@@ -1,7 +1,10 @@
 #BlueJ class context
 comment0.target=RoundedOrNot
+comment0.text=\r\n\ Die\ Klasse\ RoundedOrNot\ ist\ eigens\ f\u00FCr\ das\ Beispiel\ neben\ der\ Stiftgr\u00F6\u00DFe\ erstellt\ worden.\ Sie\ erbt\ von\ IFLabel,\ das\ wiederum\ von\ IFComponent\ erb,\ das\ wiederum\ von\ Panel\ erbt.\r\n\ Anders\ als\ regul\u00E4re\ IFLabels\ erlaubt\ dieses\ IFLabel\ auch\ die\ Darstellung\ kreisf\u00F6rmiger\ Hintergr\u00FCnde.\r\n\ \r\n\ @Jonathan\ H\u00F6lzer\ &\ Karsten\ R\u00F6mling\r\n\ @18.06.2019\r\n
 comment1.params=thick\ rounded\ color
 comment1.target=RoundedOrNot(int,\ boolean,\ java.awt.Color)
+comment1.text=\r\n\ Konstruktormethode\ der\ Klasse\ RoundedOrNot\:\ Initialisiert\ Attribute,\ ruft\ die\ Konstruktormethode\ der\ Parent\ Class\ auf,\ wobei\ die\ Gr\u00F6\u00DFe\ und\ Position\ dieses\ Objekts\ anhand\ der\ Stiftdicke\ berechnet\ wird.\r\n\ \r\n\ @param\ thick\ \ \ \ \ aktuelle\ Stiftdicke\ und\ Gr\u00F6\u00DFe\ des\ RoundedOrNot-Objekts\r\n\ @param\ rounded\ \ \ \ \ Gibt\ an,\ ob\ der\ Stift\ abgerundet\ ist\ und\ deswegen\ ein\ Kreis\ anstelle\ eines\ Quadrats\ gezeichnet\ werden\ muss.\r\n\ @param\ color\ \ \ \ \ aktuelle\ Stiftfarbe\ und\ Farbe\ des\ RoundedOrNot-Objekts\r\n
 comment2.params=g2
 comment2.target=void\ beforeText(java.awt.Graphics2D)
+comment2.text=\r\n\ \u00DCberschreibt\ die\ Methode\ public\ void\ beforeText(Graphics2D\ g2)\ der\ Klasse\ IFLabel.\ So\ wird\ vor\ dem\ Zeichnen\ des\ Texts\ ein\ Kreis\ oder\ ein\ Rechteck\ als\ Hintergrund\ gezeichnet,\ je\ nach\ dem,\ ob\ das\ Attribut\ r\ true\ oder\ false\ ist.\r\n\ \r\n\ @param\ g2\ \ \ \ \ Das\ Graphics2D-Objekt,\ das\ die\ in\ dieser\ Methode\ gezeichneten\ Elemente\ zeichnet,\ wenn\ repaint()\ ausgef\u00FChrt\ wird.\r\n
 numComments=3

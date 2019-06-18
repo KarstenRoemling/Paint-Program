@@ -4,7 +4,17 @@ import java.awt.*;
 import basis.*;
 import javax.imageio.*;
 import java.io.*;
-    
+
+/**
+ * Die Klasse IFDialog erzeugt ein Dialogfenster mit mehreren Buttons, die man unabhängig erzeugen und mit der
+ * Mathode public void setButtons(IFButton[] buttons) hinzufügen muss.
+ * Jeder Button schließt das Fenster, wenn man auf ihn klickt, und bekommt eine Position zugeteilt.
+ * Außerdem enthält der IFDialog ein IFLabel mit einer Nachricht.
+ * 
+ * @Jonathan Hölzer & Karsten Römling
+ * @18.06.2019
+ */
+
 public class IFDialog
 {
     public Frame f;
@@ -14,6 +24,14 @@ public class IFDialog
     private int height;
     public int buttonLength;
     
+    /**
+     * Konstruktormethode der Klasse IFDialog. Erstellt ein neues Frame, initialisiert die Attribute...
+     * 
+     * @param text     Die Nachricht, die im Dialog-Fenster erscheint.
+     * @param warning     Gibt an, ob es sich um eine Warnmeldung handelt und die Schriftart rot sein muss.
+     * @param h     die Höhe des Dialog-Fensters
+     * @param w     die Länge des Dialog-Fensters
+     */
     public IFDialog(String text, boolean warning, int h, int w)
     {
           height = h;
@@ -39,6 +57,11 @@ public class IFDialog
           }
     }
     
+    /**
+     * Definiert, welche Buttons in den Dialog aufgenommen werden sollen und bestimmt deren Gesamtlänge. Ruft private void createButtons() auf, um die Buttons zum Dialog hinzuzufügen, ihnen MouseListener zu überreichen und sie anzuordnen
+     * 
+     * @params buttons     Die Array an Objekten des Typs IFButton, die als Optionen zum Dialog hinzugefügt werden sollen.
+     */
     public void setButtons(IFButton[] buttons){
         btns = buttons;
         
@@ -50,6 +73,10 @@ public class IFDialog
         createButtons();
     }
     
+    /**
+     * Wird nur von public void setButtons(IFButton[] buttons) aufgerufen. Ordnet die Buttons gemäß ihrer Position in der Array insgesamt mittig und auf einer Höhe von 125 Pixeln unterhalb des oberen Fensterrandes an.
+     * Fügt zu jedem Button einen MouseListener hinzu, der das Dialogfenster schließt, wenn der Button angeklickt wird.
+     */
     private void createButtons(){
         int x = (width - buttonLength)/2;
         for(int i = 0; i<btns.length; i++){

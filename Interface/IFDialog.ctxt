@@ -1,11 +1,15 @@
 #BlueJ class context
 comment0.target=IFDialog
+comment0.text=\r\n\ Die\ Klasse\ IFDialog\ erzeugt\ ein\ Dialogfenster\ mit\ mehreren\ Buttons,\ die\ man\ unabh\u00E4ngig\ erzeugen\ und\ mit\ der\r\n\ Mathode\ public\ void\ setButtons(IFButton[]\ buttons)\ hinzuf\u00FCgen\ muss.\r\n\ Jeder\ Button\ schlie\u00DFt\ das\ Fenster,\ wenn\ man\ auf\ ihn\ klickt,\ und\ bekommt\ eine\ Position\ zugeteilt.\r\n\ Au\u00DFerdem\ enth\u00E4lt\ der\ IFDialog\ ein\ IFLabel\ mit\ einer\ Nachricht.\r\n\ \r\n\ @Jonathan\ H\u00F6lzer\ &\ Karsten\ R\u00F6mling\r\n\ @18.06.2019\r\n
 comment1.params=text\ warning\ h\ w
 comment1.target=IFDialog(java.lang.String,\ boolean,\ int,\ int)
+comment1.text=\r\n\ Konstruktormethode\ der\ Klasse\ IFDialog.\ Erstellt\ ein\ neues\ Frame,\ initialisiert\ die\ Attribute...\r\n\ \r\n\ @param\ text\ \ \ \ \ Die\ Nachricht,\ die\ im\ Dialog-Fenster\ erscheint.\r\n\ @param\ warning\ \ \ \ \ Gibt\ an,\ ob\ es\ sich\ um\ eine\ Warnmeldung\ handelt\ und\ die\ Schriftart\ rot\ sein\ muss.\r\n\ @param\ h\ \ \ \ \ die\ H\u00F6he\ des\ Dialog-Fensters\r\n\ @param\ w\ \ \ \ \ die\ L\u00E4nge\ des\ Dialog-Fensters\r\n
 comment2.params=buttons
 comment2.target=void\ setButtons(IFButton[])
+comment2.text=\r\n\ Definiert,\ welche\ Buttons\ in\ den\ Dialog\ aufgenommen\ werden\ sollen\ und\ bestimmt\ deren\ Gesamtl\u00E4nge.\ Ruft\ private\ void\ createButtons()\ auf,\ um\ die\ Buttons\ zum\ Dialog\ hinzuzuf\u00FCgen,\ ihnen\ MouseListener\ zu\ \u00FCberreichen\ und\ sie\ anzuordnen\r\n\ \r\n\ @params\ buttons\ \ \ \ \ Die\ Array\ an\ Objekten\ des\ Typs\ IFButton,\ die\ als\ Optionen\ zum\ Dialog\ hinzugef\u00FCgt\ werden\ sollen.\r\n
 comment3.params=
 comment3.target=void\ createButtons()
+comment3.text=\r\n\ Wird\ nur\ von\ public\ void\ setButtons(IFButton[]\ buttons)\ aufgerufen.\ Ordnet\ die\ Buttons\ gem\u00E4\u00DF\ ihrer\ Position\ in\ der\ Array\ insgesamt\ mittig\ und\ auf\ einer\ H\u00F6he\ von\ 125\ Pixeln\ unterhalb\ des\ oberen\ Fensterrandes\ an.\r\n\ F\u00FCgt\ zu\ jedem\ Button\ einen\ MouseListener\ hinzu,\ der\ das\ Dialogfenster\ schlie\u00DFt,\ wenn\ der\ Button\ angeklickt\ wird.\r\n
 comment4.params=e
 comment4.target=void\ mouseClicked(java.awt.event.MouseEvent)
 comment5.params=e
