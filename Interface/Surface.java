@@ -137,6 +137,7 @@ public class Surface
         BGY = new IFTextField(50,30,85,205,IFTextField.T_NUMBER);
         
         updateExample();
+        rs.s.setzeLinienBreite(thick);
         
         bgColor = Color.WHITE;
         
@@ -192,6 +193,13 @@ public class Surface
             public void keyTyped(KeyEvent k){
                 if(validTextNormal1(sThickness.getText())){
                     thick = sThickness.getNumber();
+                    if(thick==0){
+                        thick = 1;
+                    }
+                    else if(thick>1000){
+                        thick = 1000;
+                        sThickness.setText("1000");
+                    }
                     rs.s.setzeLinienBreite(thick);
                     updateExample();
                 }else{
@@ -516,7 +524,7 @@ public class Surface
                 rs.newText = false;
             }
             rs.setPos(rs.textX, rs.textY);
-            IFTextField t = (IFTextField) infos.get(1);
+            IFTextField t = (IFTextField) infos.get(3);
             rs.s.schreibeText(t.getText());
             rs.backup();
         }
@@ -679,6 +687,8 @@ public class Surface
     public void loadImage(boolean big){
         try{
             rs.b1.ladeBild(getPath(big));
+            BGX.setText(String.valueOf(rs.b1.breite()));
+            BGY.setText(String.valueOf(rs.b1.hoehe()));
         }
         catch(Exception ex){
             new Info("Das Bild von diesem Pfad kann nicht geladen werden:\n"+getPath(big), true);

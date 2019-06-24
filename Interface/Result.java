@@ -512,7 +512,7 @@ public class Result implements MausLauscherStandard, MausLauscherErweitert, Tast
                     textX = x;
                     textY = y;
                     newText = true;
-                    IFTextField text = (IFTextField)Manager.sf.infos.get(1);
+                    IFTextField text = (IFTextField)Manager.sf.infos.get(3);
                     text.setText("");
                     break;
                 case 9:
