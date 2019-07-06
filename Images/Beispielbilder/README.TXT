@@ -1,0 +1,1 @@
+Example images for the presentation of the project in class.
